@@ -52,6 +52,7 @@ tmavá, obří nadpisy verzálkami, hodně animací. Statický web bez build ste
 | `index.html` | celá stránka: Hero → pás služeb → Intro → Work → Services → Packages → How we work → Contact „I need…“ → patička |
 | `style.css` | vzhled; barvy jako proměnné v `:root` (stejné jako logo) |
 | `js/main.js` | animace a interakce |
+| `images/og.jpg` | náhled odkazu (iMessage, WhatsApp, Messenger): screenshot úvodu 1200×630; v `<head>` jako `og:image` s absolutní adresou na github.io — při přesunu na vlastní doménu změnit |
 | `images/work/` | screenshoty projektů v sekci Work: Aveo Engineering, Key Sailing Sarasota |
 
 Knihovny z CDN: **GSAP 3.12.5 + ScrollTrigger** (animace při scrollu), **Lenis 1.1.13**
