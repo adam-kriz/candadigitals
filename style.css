@@ -46,21 +46,44 @@ button { font: inherit; color: inherit; cursor: pointer; }
   transition: color 0.3s, padding 0.4s var(--ease);
 }
 /* Once the page scrolls, a frosted layer keeps the logo and menu readable over
-   content. It reaches below the header and fades out, so there is no hard edge. */
-.header::before {
-  content: ""; position: absolute; inset: 0 0 -36px 0; z-index: -1; pointer-events: none;
-  background-color: rgba(38, 38, 36, 0.62);
-  -webkit-backdrop-filter: blur(16px) saturate(1.3);
-  backdrop-filter: blur(16px) saturate(1.3);
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 100%);
+   content. It is a progressive blur: four layers whose blur gets weaker further
+   down, plus a tint that fades out, so there is no visible edge. */
+.header-fade {
+  position: absolute; inset: 0 0 -72px 0; z-index: -1; pointer-events: none;
   opacity: 0; transition: opacity 0.4s;
 }
+.header-fade span { position: absolute; inset: 0; }
+.header-fade span:nth-child(1) {
+  -webkit-backdrop-filter: blur(1.5px); backdrop-filter: blur(1.5px);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 60%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 60%, transparent 100%);
+}
+.header-fade span:nth-child(2) {
+  -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 45%, transparent 80%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 45%, transparent 80%);
+}
+.header-fade span:nth-child(3) {
+  -webkit-backdrop-filter: blur(9px); backdrop-filter: blur(9px);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 35%, transparent 65%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 35%, transparent 65%);
+}
+.header-fade span:nth-child(4) {
+  -webkit-backdrop-filter: blur(18px) saturate(1.3); backdrop-filter: blur(18px) saturate(1.3);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 30%, transparent 52%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 30%, transparent 52%);
+}
+.header-fade::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(to bottom,
+    rgba(38, 38, 36, 0.78) 0%, rgba(38, 38, 36, 0.66) 35%, rgba(38, 38, 36, 0.4) 58%,
+    rgba(38, 38, 36, 0.16) 78%, rgba(38, 38, 36, 0.04) 92%, rgba(38, 38, 36, 0) 100%);
+}
 .header.is-scrolled { padding-block: 14px; }
-.header.is-scrolled::before { opacity: 1; }
+.header.is-scrolled .header-fade { opacity: 1; }
 /* Over the light menu overlay the header turns dark and drops the frosted layer. */
 .header.menu-on { color: var(--bg); }
-.header.menu-on::before { opacity: 0; }
+.header.menu-on .header-fade { opacity: 0; }
 .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-size: 18px; letter-spacing: -0.01em; }
 .brand-mark { width: 30px; height: 30px; }
 .menu-btn {
