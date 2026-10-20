@@ -71,7 +71,7 @@
   });
   document.querySelector('.to-top').addEventListener('click', () => scrollToTarget(0));
 
-  /* Clocks and weather: Sarasota in °F, Prague in °C */
+  /* Clocks: Florida and Prague */
   const clocks = document.querySelectorAll('.clock');
   const tick = () => clocks.forEach((c) => {
     c.querySelector('.clock-time').textContent = new Intl.DateTimeFormat('en-US', {
@@ -80,15 +80,6 @@
   });
   tick();
   setInterval(tick, 15000);
-  clocks.forEach(async (c) => {
-    const fahrenheit = c.dataset.tz.startsWith('America');
-    try {
-      const url = `https://api.open-meteo.com/v1/forecast?latitude=${c.dataset.lat}&longitude=${c.dataset.lon}&current=temperature_2m${fahrenheit ? '&temperature_unit=fahrenheit' : ''}`;
-      const data = await (await fetch(url)).json();
-      const t = Math.round(data.current.temperature_2m);
-      if (Number.isFinite(t)) c.querySelector('.clock-temp').textContent = `${t}°${fahrenheit ? 'F' : 'C'}`;
-    } catch (_) { /* weather is a nice-to-have */ }
-  });
 
   /* Copy email */
   document.querySelectorAll('.copy').forEach((btn) => {
