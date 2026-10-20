@@ -63,8 +63,9 @@ Animace: nadpis naskakuje po slovech; tři vrstvy loga v úvodu se při scrollu 
 myší náhled; služby = rozbalovací seznam (otevřená jen jedna); čára „How we work“ se
 kreslí při scrollu; štítky „I need…“ padají a jdou přetahovat (jen počítač s myší, na
 mobilu obyčejná tlačítka; vlastní smyčka s pevným krokem 1/120 s, spaní těl proti chvění,
-tlusté stěny + strop + limit rychlosti hodu, tažení slyší celé okno, stěny se přepočítají
-při změně velikosti, při najetí myší a kliknutí štítek „poskočí“); magnetická tlačítka. Hodiny „Our desk“ Florida a Praha (bez počasí, Adam ho 20. 10. 2026 nechtěl). **Omezené animace v systému → klidná verze** bez
+zavřený box (strop od začátku, štítky startují uvnitř), menší štítky, rámeček 150 px /
+max 760 px, limit rychlosti hodu, tažení slyší celé okno, stěny se přepočítají při změně
+velikosti; žádné poskakování — Adam nechce, aby štítky vylétávaly); magnetická tlačítka. Hodiny „Our desk“ Florida a Praha (bez počasí, Adam ho 20. 10. 2026 nechtěl). **Omezené animace v systému → klidná verze** bez
 animací a plynulého scrollu (ověřeno).
 
 Zatím **náhled**: `noindex`, e-mail `hello@candadigitals.com` je **jen zástupný**

@@ -216,11 +216,9 @@
   const chipsBox = document.querySelector('.chips');
   const chips = [...chipsBox.querySelectorAll('.chip')];
   let dragDistance = 0;
-  let onChipToggle = null; // set by the physics version to give the chip a little hop
-  chips.forEach((chip, i) => chip.addEventListener('click', (e) => {
+  chips.forEach((chip) => chip.addEventListener('click', (e) => {
     if (dragDistance > 6) { e.preventDefault(); return; }
     chip.setAttribute('aria-pressed', String(chip.getAttribute('aria-pressed') !== 'true'));
-    if (onChipToggle) onChipToggle(i);
   }));
 
   const usePhysics = typeof window.Matter !== 'undefined' && !reduceMotion && canHover && window.innerWidth >= 700;
@@ -239,34 +237,38 @@
     const T = 400;
     const wallOpts = { isStatic: true, friction: 0.5, restitution: 0.2 };
     let walls = [];
-    let ceiling = false;
+    // A closed box: floor, side walls and a ceiling from the very start, so nothing
+    // can fly out of the top.
     const buildWalls = () => {
       if (walls.length) Composite.remove(engine.world, walls);
       walls = [
         Bodies.rectangle(W / 2, H + T / 2, W + T * 2, T, wallOpts),
-        Bodies.rectangle(-T / 2, H / 2 - H, T, H * 4, wallOpts),
-        Bodies.rectangle(W + T / 2, H / 2 - H, T, H * 4, wallOpts)
+        Bodies.rectangle(W / 2, -T / 2, W + T * 2, T, wallOpts),
+        Bodies.rectangle(-T / 2, H / 2, T, H + T * 2, wallOpts),
+        Bodies.rectangle(W + T / 2, H / 2, T, H + T * 2, wallOpts)
       ];
-      // The ceiling only goes in once every chip has fallen into the box.
-      if (ceiling) walls.push(Bodies.rectangle(W / 2, -T / 2, W + T * 2, T, wallOpts));
       Composite.add(engine.world, walls);
     };
     buildWalls();
 
-    // Drop each chip into its own slot across the width (in shuffled order) so they
-    // spread out instead of piling up in one corner.
-    const slots = chips.map((_, i) => i).sort(() => Math.random() - 0.5);
+    // Start every chip inside the box: lay them out in rows (in shuffled order) near
+    // the top, then let them settle down onto the floor.
+    const order = chips.map((_, i) => i).sort(() => Math.random() - 0.5);
+    const start = [];
+    let cx = 8, cy = 4;
+    order.forEach((i) => {
+      const w = chips[i].offsetWidth;
+      const h = chips[i].offsetHeight;
+      if (cx + w > W - 8) { cx = 8; cy += h + 4; }
+      start[i] = { x: cx + w / 2, y: Math.min(cy + h / 2, H - h / 2) };
+      cx += w + 6 + Math.random() * 18;
+    });
     const pairs = chips.map((chip, i) => {
       const w = chip.offsetWidth;
       const h = chip.offsetHeight;
-      const x = ((slots[i] + 0.5) / chips.length) * W;
-      const body = Bodies.rectangle(
-        Math.min(Math.max(x, w / 2), W - w / 2),
-        -h - (i % 3) * 60,
-        w, h,
-        { chamfer: { radius: h / 2 }, restitution: 0.3, friction: 0.4, frictionStatic: 0.6, frictionAir: 0.02, sleepThreshold: 40 }
-      );
-      Body.setAngle(body, (Math.random() - 0.5) * 0.6);
+      const body = Bodies.rectangle(start[i].x, start[i].y, w, h,
+        { chamfer: { radius: h / 2 }, restitution: 0.15, friction: 0.45, frictionStatic: 0.7, frictionAir: 0.025, sleepThreshold: 40 });
+      Body.setAngle(body, (Math.random() - 0.5) * 0.3);
       return { chip, body, w, h };
     });
     const clamp = (v, lo, hi) => Math.min(Math.max(v, lo), hi);
@@ -291,18 +293,7 @@
     window.addEventListener('mousemove', (e) => { if (downAt) dragDistance = Math.hypot(e.clientX - downAt.x, e.clientY - downAt.y); });
     window.addEventListener('mouseup', () => { downAt = null; setTimeout(() => { dragDistance = 0; }, 0); });
 
-    // A small hop: when the pointer touches a resting chip, and when one is toggled.
-    const hop = ({ body }, strength) => {
-      Sleeping.set(body, false);
-      Body.setVelocity(body, { x: body.velocity.x + (Math.random() - 0.5) * 1.5, y: -strength });
-      Body.setAngularVelocity(body, (Math.random() - 0.5) * 0.04);
-    };
-    pairs.forEach((pair) => pair.chip.addEventListener('mouseenter', () => {
-      if (!mc.body && pair.body.speed < 0.5) hop(pair, 3);
-    }));
-    onChipToggle = (i) => hop(pairs[i], 4.5);
-
-    const MAX_SPEED = 28;
+    const MAX_SPEED = 20;
     Events.on(engine, 'beforeUpdate', () => {
       pairs.forEach(({ body }) => {
         // Cap the speed of a throw so nothing flies off wildly.
@@ -311,12 +302,11 @@
       });
     });
     Events.on(engine, 'afterUpdate', () => {
-      if (!ceiling && pairs.every(({ body, h }) => body.position.y > h)) { ceiling = true; buildWalls(); }
       // Safety net: anything that still ends up outside the box is put back inside.
       pairs.forEach(({ body, w, h }) => {
-        const out = body.position.x < -w || body.position.x > W + w || body.position.y > H + h || (ceiling && body.position.y < -h);
+        const out = body.position.x < -w / 2 || body.position.x > W + w / 2 || body.position.y > H + h || body.position.y < -h / 2;
         if (out) {
-          Body.setPosition(body, { x: clamp(body.position.x, w / 2, W - w / 2), y: h });
+          Body.setPosition(body, { x: clamp(body.position.x, w / 2, W - w / 2), y: H - h });
           Body.setVelocity(body, { x: 0, y: 0 });
         }
       });
@@ -325,8 +315,7 @@
     const render = () => pairs.forEach(({ chip, body, w, h }) => {
       chip.style.transform = `translate3d(${body.position.x - w / 2}px, ${body.position.y - h / 2}px, 0) rotate(${body.angle}rad)`;
     });
-    // Park the chips above the box until it scrolls into view.
-    pairs.forEach(({ chip, w, h }) => { chip.style.transform = `translate3d(${W / 2 - w / 2}px, ${-h * 2}px, 0)`; });
+    render(); // show the starting layout until the box scrolls into view
 
     // Fixed small time steps, drawn every animation frame: smoother than Matter's Runner.
     const STEP = 1000 / 120;
