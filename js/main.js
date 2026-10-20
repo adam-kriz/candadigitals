@@ -216,26 +216,42 @@
   const chipsBox = document.querySelector('.chips');
   const chips = [...chipsBox.querySelectorAll('.chip')];
   let dragDistance = 0;
-  chips.forEach((chip) => chip.addEventListener('click', (e) => {
+  let onChipToggle = null; // set by the physics version to give the chip a little hop
+  chips.forEach((chip, i) => chip.addEventListener('click', (e) => {
     if (dragDistance > 6) { e.preventDefault(); return; }
     chip.setAttribute('aria-pressed', String(chip.getAttribute('aria-pressed') !== 'true'));
+    if (onChipToggle) onChipToggle(i);
   }));
 
   const usePhysics = typeof window.Matter !== 'undefined' && !reduceMotion && canHover && window.innerWidth >= 700;
   if (usePhysics) startPhysics();
 
   function startPhysics() {
-    const { Engine, Runner, Bodies, Composite, Mouse, MouseConstraint, Events, Body } = Matter;
+    const { Engine, Bodies, Composite, Mouse, MouseConstraint, Events, Body, Sleeping } = Matter;
     chipsBox.classList.add('is-physics');
-    const W = chipsBox.clientWidth;
-    const H = chipsBox.clientHeight;
-    const engine = Engine.create({ gravity: { y: 1 } });
-    const wall = { isStatic: true };
-    Composite.add(engine.world, [
-      Bodies.rectangle(W / 2, H + 50, W * 2, 100, wall),
-      Bodies.rectangle(-50, H / 2, 100, H * 3, wall),
-      Bodies.rectangle(W + 50, H / 2, 100, H * 3, wall)
-    ]);
+    let W = chipsBox.clientWidth;
+    let H = chipsBox.clientHeight;
+
+    // Sleeping stops resting chips from jittering; more iterations keep stacks stable.
+    const engine = Engine.create({ gravity: { y: 1 }, enableSleeping: true, positionIterations: 12, velocityIterations: 8 });
+
+    // Thick walls so a hard throw can't tunnel through them in a single step.
+    const T = 400;
+    const wallOpts = { isStatic: true, friction: 0.5, restitution: 0.2 };
+    let walls = [];
+    let ceiling = false;
+    const buildWalls = () => {
+      if (walls.length) Composite.remove(engine.world, walls);
+      walls = [
+        Bodies.rectangle(W / 2, H + T / 2, W + T * 2, T, wallOpts),
+        Bodies.rectangle(-T / 2, H / 2 - H, T, H * 4, wallOpts),
+        Bodies.rectangle(W + T / 2, H / 2 - H, T, H * 4, wallOpts)
+      ];
+      // The ceiling only goes in once every chip has fallen into the box.
+      if (ceiling) walls.push(Bodies.rectangle(W / 2, -T / 2, W + T * 2, T, wallOpts));
+      Composite.add(engine.world, walls);
+    };
+    buildWalls();
 
     // Drop each chip into its own slot across the width (in shuffled order) so they
     // spread out instead of piling up in one corner.
@@ -248,48 +264,111 @@
         Math.min(Math.max(x, w / 2), W - w / 2),
         -h - (i % 3) * 60,
         w, h,
-        { chamfer: { radius: h / 2 }, restitution: 0.35, friction: 0.3, frictionAir: 0.015 }
+        { chamfer: { radius: h / 2 }, restitution: 0.3, friction: 0.4, frictionStatic: 0.6, frictionAir: 0.02, sleepThreshold: 40 }
       );
       Body.setAngle(body, (Math.random() - 0.5) * 0.6);
       return { chip, body, w, h };
     });
+    const clamp = (v, lo, hi) => Math.min(Math.max(v, lo), hi);
 
+    // Dragging. Matter listens on the box only, so letting go outside it used to leave
+    // a chip stuck to the cursor; move and release are now heard on the whole window.
     const mouse = Mouse.create(chipsBox);
-    // Matter grabs the scroll wheel by default; give it back to the page.
-    ['mousewheel', 'DOMMouseScroll', 'wheel'].forEach((ev) => mouse.element.removeEventListener(ev, mouse.mousewheel));
-    const mc = MouseConstraint.create(engine, { mouse, constraint: { stiffness: 0.2, render: { visible: false } } });
+    ['mousewheel', 'DOMMouseScroll', 'wheel'].forEach((ev) => chipsBox.removeEventListener(ev, mouse.mousewheel));
+    chipsBox.removeEventListener('mousemove', mouse.mousemove);
+    chipsBox.removeEventListener('mouseup', mouse.mouseup);
+    window.addEventListener('mousemove', mouse.mousemove);
+    window.addEventListener('mouseup', mouse.mouseup);
+    const mc = MouseConstraint.create(engine, {
+      mouse, constraint: { stiffness: 0.12, damping: 0.08, angularStiffness: 0, render: { visible: false } }
+    });
     Composite.add(engine.world, mc);
+    Events.on(mc, 'startdrag', () => chipsBox.classList.add('is-grabbing'));
+    Events.on(mc, 'enddrag', () => chipsBox.classList.remove('is-grabbing'));
 
     let downAt = null;
     chipsBox.addEventListener('mousedown', (e) => { downAt = { x: e.clientX, y: e.clientY }; dragDistance = 0; });
     window.addEventListener('mousemove', (e) => { if (downAt) dragDistance = Math.hypot(e.clientX - downAt.x, e.clientY - downAt.y); });
     window.addEventListener('mouseup', () => { downAt = null; setTimeout(() => { dragDistance = 0; }, 0); });
 
-    // Once every chip has fallen in, close the box with a ceiling so none can be
-    // thrown or stacked out of sight above the top edge.
-    let ceiling = false;
-    Events.on(engine, 'afterUpdate', () => {
-      if (!ceiling && pairs.every(({ body, h }) => body.position.y > h)) {
-        ceiling = true;
-        Composite.add(engine.world, Bodies.rectangle(W / 2, -50, W * 2, 100, wall));
-      }
-      pairs.forEach(({ chip, body, w, h }) => {
-        chip.style.transform = `translate(${body.position.x - w / 2}px, ${body.position.y - h / 2}px) rotate(${body.angle}rad)`;
+    // A small hop: when the pointer touches a resting chip, and when one is toggled.
+    const hop = ({ body }, strength) => {
+      Sleeping.set(body, false);
+      Body.setVelocity(body, { x: body.velocity.x + (Math.random() - 0.5) * 1.5, y: -strength });
+      Body.setAngularVelocity(body, (Math.random() - 0.5) * 0.04);
+    };
+    pairs.forEach((pair) => pair.chip.addEventListener('mouseenter', () => {
+      if (!mc.body && pair.body.speed < 0.5) hop(pair, 3);
+    }));
+    onChipToggle = (i) => hop(pairs[i], 4.5);
+
+    const MAX_SPEED = 28;
+    Events.on(engine, 'beforeUpdate', () => {
+      pairs.forEach(({ body }) => {
+        // Cap the speed of a throw so nothing flies off wildly.
+        if (body.speed > MAX_SPEED) Body.setVelocity(body, { x: body.velocity.x * MAX_SPEED / body.speed, y: body.velocity.y * MAX_SPEED / body.speed });
+        if (Math.abs(body.angularVelocity) > 0.25) Body.setAngularVelocity(body, Math.sign(body.angularVelocity) * 0.25);
       });
     });
-    // Park the chips above the box until it scrolls into view.
-    pairs.forEach(({ chip, w, h }) => { chip.style.transform = `translate(${W / 2 - w / 2}px, ${-h * 2}px)`; });
+    Events.on(engine, 'afterUpdate', () => {
+      if (!ceiling && pairs.every(({ body, h }) => body.position.y > h)) { ceiling = true; buildWalls(); }
+      // Safety net: anything that still ends up outside the box is put back inside.
+      pairs.forEach(({ body, w, h }) => {
+        const out = body.position.x < -w || body.position.x > W + w || body.position.y > H + h || (ceiling && body.position.y < -h);
+        if (out) {
+          Body.setPosition(body, { x: clamp(body.position.x, w / 2, W - w / 2), y: h });
+          Body.setVelocity(body, { x: 0, y: 0 });
+        }
+      });
+    });
 
+    const render = () => pairs.forEach(({ chip, body, w, h }) => {
+      chip.style.transform = `translate3d(${body.position.x - w / 2}px, ${body.position.y - h / 2}px, 0) rotate(${body.angle}rad)`;
+    });
+    // Park the chips above the box until it scrolls into view.
+    pairs.forEach(({ chip, w, h }) => { chip.style.transform = `translate3d(${W / 2 - w / 2}px, ${-h * 2}px, 0)`; });
+
+    // Fixed small time steps, drawn every animation frame: smoother than Matter's Runner.
+    const STEP = 1000 / 120;
+    let running = false, last = 0, acc = 0;
+    const frame = (t) => {
+      if (!running) return;
+      acc += last ? Math.min(t - last, 100) : STEP;
+      last = t;
+      while (acc >= STEP) { Engine.update(engine, STEP); acc -= STEP; }
+      render();
+      requestAnimationFrame(frame);
+    };
+    const setRunning = (on) => {
+      if (on === running) return;
+      running = on;
+      if (on) { last = 0; acc = 0; requestAnimationFrame(frame); }
+    };
+
+    // Start when the box is in view, pause whenever it's scrolled away.
     let started = false;
-    const runner = Runner.create();
-    const io = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting && !started) {
+    new IntersectionObserver((entries) => {
+      const e = entries[0];
+      if (!started && e.intersectionRatio >= 0.4) {
         started = true;
         Composite.add(engine.world, pairs.map((p) => p.body));
-        Runner.run(runner, engine);
       }
-    }, { threshold: 0.4 });
-    io.observe(chipsBox);
+      if (started) setRunning(e.isIntersecting);
+    }, { threshold: [0, 0.4] }).observe(chipsBox);
+
+    // Keep the walls on the box edges when the window is resized.
+    new ResizeObserver(() => {
+      const nw = chipsBox.clientWidth;
+      const nh = chipsBox.clientHeight;
+      if (nw === W && nh === H) return;
+      W = nw; H = nh;
+      buildWalls();
+      pairs.forEach(({ body, w }) => {
+        Sleeping.set(body, false);
+        if (body.position.x > W - w / 2 || body.position.x < w / 2) Body.setPosition(body, { x: clamp(body.position.x, w / 2, W - w / 2), y: body.position.y });
+      });
+      if (!running) render();
+    }).observe(chipsBox);
   }
 
   /* Form (preview only, not connected yet) */
