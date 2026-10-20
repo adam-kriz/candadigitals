@@ -237,12 +237,16 @@
       Bodies.rectangle(W + 50, H / 2, 100, H * 3, wall)
     ]);
 
+    // Drop each chip into its own slot across the width (in shuffled order) so they
+    // spread out instead of piling up in one corner.
+    const slots = chips.map((_, i) => i).sort(() => Math.random() - 0.5);
     const pairs = chips.map((chip, i) => {
       const w = chip.offsetWidth;
       const h = chip.offsetHeight;
+      const x = ((slots[i] + 0.5) / chips.length) * W;
       const body = Bodies.rectangle(
-        w / 2 + Math.random() * Math.max(1, W - w),
-        -h - i * 70,
+        Math.min(Math.max(x, w / 2), W - w / 2),
+        -h - (i % 3) * 60,
         w, h,
         { chamfer: { radius: h / 2 }, restitution: 0.35, friction: 0.3, frictionAir: 0.015 }
       );
@@ -261,7 +265,14 @@
     window.addEventListener('mousemove', (e) => { if (downAt) dragDistance = Math.hypot(e.clientX - downAt.x, e.clientY - downAt.y); });
     window.addEventListener('mouseup', () => { downAt = null; setTimeout(() => { dragDistance = 0; }, 0); });
 
+    // Once every chip has fallen in, close the box with a ceiling so none can be
+    // thrown or stacked out of sight above the top edge.
+    let ceiling = false;
     Events.on(engine, 'afterUpdate', () => {
+      if (!ceiling && pairs.every(({ body, h }) => body.position.y > h)) {
+        ceiling = true;
+        Composite.add(engine.world, Bodies.rectangle(W / 2, -50, W * 2, 100, wall));
+      }
       pairs.forEach(({ chip, body, w, h }) => {
         chip.style.transform = `translate(${body.position.x - w / 2}px, ${body.position.y - h / 2}px) rotate(${body.angle}rad)`;
       });
