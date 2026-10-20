@@ -251,25 +251,34 @@
     };
     buildWalls();
 
-    // Start every chip inside the box: lay them out in rows (in shuffled order) near
-    // the top, then let them settle down onto the floor.
-    const order = chips.map((_, i) => i).sort(() => Math.random() - 0.5);
+    // Start every chip at a random, non-overlapping spot inside the box, tilted at a
+    // random angle and with a small random nudge, so they tumble down differently
+    // every time instead of dropping straight in neat rows.
     const start = [];
-    let cx = 8, cy = 4;
-    order.forEach((i) => {
-      const w = chips[i].offsetWidth;
-      const h = chips[i].offsetHeight;
-      if (cx + w > W - 8) { cx = 8; cy += h + 4; }
-      start[i] = { x: cx + w / 2, y: Math.min(cy + h / 2, H - h / 2) };
-      cx += w + 6 + Math.random() * 18;
+    const placed = [];
+    chips.forEach((chip, i) => {
+      const w = chip.offsetWidth;
+      const h = chip.offsetHeight;
+      let spot = null;
+      for (let tries = 0; tries < 80 && !spot; tries++) {
+        const x = w / 2 + 6 + Math.random() * Math.max(1, W - w - 12);
+        const y = h / 2 + 6 + Math.random() * Math.max(1, H * 0.7 - h);
+        const r = { l: x - w / 2 - 6, r: x + w / 2 + 6, t: y - h / 2 - 6, b: y + h / 2 + 6 };
+        if (!placed.some((p) => r.l < p.r && r.r > p.l && r.t < p.b && r.b > p.t)) { spot = { x, y }; placed.push(r); }
+      }
+      start[i] = spot || { x: w / 2 + Math.random() * (W - w), y: h / 2 + 6 };
     });
     const pairs = chips.map((chip, i) => {
       const w = chip.offsetWidth;
       const h = chip.offsetHeight;
       const body = Bodies.rectangle(start[i].x, start[i].y, w, h,
         { chamfer: { radius: h / 2 }, restitution: 0.15, friction: 0.45, frictionStatic: 0.7, frictionAir: 0.025, sleepThreshold: 40 });
-      Body.setAngle(body, (Math.random() - 0.5) * 0.3);
+      Body.setAngle(body, (Math.random() - 0.5) * 1.2);
       return { chip, body, w, h };
+    });
+    const nudge = () => pairs.forEach(({ body }) => {
+      Body.setVelocity(body, { x: (Math.random() - 0.5) * 6, y: Math.random() * 2 });
+      Body.setAngularVelocity(body, (Math.random() - 0.5) * 0.12);
     });
     const clamp = (v, lo, hi) => Math.min(Math.max(v, lo), hi);
 
@@ -341,6 +350,7 @@
       if (!started && e.intersectionRatio >= 0.4) {
         started = true;
         Composite.add(engine.world, pairs.map((p) => p.body));
+        nudge();
       }
       if (started) setRunning(e.isIntersecting);
     }, { threshold: [0, 0.4] }).observe(chipsBox);
