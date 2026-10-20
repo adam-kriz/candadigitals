@@ -117,9 +117,9 @@
       current = row;
       if (row) {
         img.src = row.dataset.img;
-        gsap.to(preview, { opacity: 1, scale: 1, duration: 0.4, ease: 'power3.out', overwrite: true });
+        gsap.to(preview, { opacity: 1, scale: 1, duration: 0.4, ease: 'power3.out', overwrite: 'auto' });
       } else {
-        gsap.to(preview, { opacity: 0, scale: 0.85, duration: 0.3, overwrite: true });
+        gsap.to(preview, { opacity: 0, scale: 0.85, duration: 0.3, overwrite: 'auto' });
       }
     };
     window.addEventListener('mousemove', (e) => { px = e.clientX; py = e.clientY; xTo(px); yTo(py); update(); });
