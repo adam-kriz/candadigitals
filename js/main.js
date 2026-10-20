@@ -25,6 +25,12 @@
   /* Menu */
   const menuBtn = document.querySelector('.menu-btn');
   const menu = document.getElementById('menu');
+  const header = document.querySelector('.header');
+
+  /* Frosted header once the page has scrolled */
+  const onScrollHeader = () => header.classList.toggle('is-scrolled', window.scrollY > 10);
+  onScrollHeader();
+  window.addEventListener('scroll', onScrollHeader, { passive: true });
   const animateMenu = hasGsap && !reduceMotion;
   const menuItems = menu.querySelectorAll('li, .menu-foot');
   // The overlay wipes down to open and back up to close, with a soft rounded edge.
@@ -38,11 +44,12 @@
     menuOpen = open;
     menuBtn.setAttribute('aria-expanded', String(open));
     menuBtn.classList.toggle('menu-open-state', open);
+    if (open) header.classList.add('menu-on');
     document.body.style.overflow = open ? 'hidden' : '';
     if (lenis) open ? lenis.stop() : lenis.start();
     if (menuTl) menuTl.kill();
 
-    if (!animateMenu) { menu.hidden = !open; return; }
+    if (!animateMenu) { menu.hidden = !open; header.classList.toggle('menu-on', open); return; }
 
     if (open) {
       menu.hidden = false;
@@ -50,7 +57,7 @@
         .fromTo(menu, { clipPath: shut }, { clipPath: full, duration: 0.9, ease: 'expo.inOut' })
         .fromTo(menuItems, { yPercent: 80, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.8, stagger: 0.05, ease: 'expo.out' }, 0.35);
     } else {
-      menuTl = gsap.timeline({ onComplete: () => { menu.hidden = true; } })
+      menuTl = gsap.timeline({ onComplete: () => { menu.hidden = true; header.classList.remove('menu-on'); } })
         .to(menuItems, { yPercent: -40, opacity: 0, duration: 0.35, stagger: 0.03, ease: 'power2.in' })
         .to(menu, { clipPath: shut, duration: 0.8, ease: 'expo.inOut' }, 0.15);
     }
