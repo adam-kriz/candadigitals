@@ -25,19 +25,38 @@
   /* Menu */
   const menuBtn = document.querySelector('.menu-btn');
   const menu = document.getElementById('menu');
+  const animateMenu = hasGsap && !reduceMotion;
+  const menuItems = menu.querySelectorAll('li, .menu-foot');
+  // The overlay wipes down to open and back up to close, with a soft rounded edge.
+  const shut = 'inset(0% 0% 100% 0% round 0px 0px 50% 50%)';
+  const full = 'inset(0% 0% 0% 0% round 0px 0px 0% 0%)';
+  let menuOpen = false;
+  let menuTl = null;
+
   const setMenu = (open) => {
-    menu.hidden = !open;
+    if (open === menuOpen) return;
+    menuOpen = open;
     menuBtn.setAttribute('aria-expanded', String(open));
     menuBtn.classList.toggle('menu-open-state', open);
-    if (lenis) open ? lenis.stop() : lenis.start();
     document.body.style.overflow = open ? 'hidden' : '';
-    if (open && hasGsap && !reduceMotion) {
-      gsap.fromTo(menu, { clipPath: 'inset(0 0 100% 0)' }, { clipPath: 'inset(0 0 0% 0)', duration: 0.7, ease: 'expo.out' });
-      gsap.fromTo(menu.querySelectorAll('li'), { yPercent: 60, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.7, stagger: 0.05, ease: 'expo.out', delay: 0.1 });
+    if (lenis) open ? lenis.stop() : lenis.start();
+    if (menuTl) menuTl.kill();
+
+    if (!animateMenu) { menu.hidden = !open; return; }
+
+    if (open) {
+      menu.hidden = false;
+      menuTl = gsap.timeline()
+        .fromTo(menu, { clipPath: shut }, { clipPath: full, duration: 0.9, ease: 'expo.inOut' })
+        .fromTo(menuItems, { yPercent: 80, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.8, stagger: 0.05, ease: 'expo.out' }, 0.35);
+    } else {
+      menuTl = gsap.timeline({ onComplete: () => { menu.hidden = true; } })
+        .to(menuItems, { yPercent: -40, opacity: 0, duration: 0.35, stagger: 0.03, ease: 'power2.in' })
+        .to(menu, { clipPath: shut, duration: 0.8, ease: 'expo.inOut' }, 0.15);
     }
   };
-  menuBtn.addEventListener('click', () => setMenu(menu.hidden));
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !menu.hidden) { setMenu(false); menuBtn.focus(); } });
+  menuBtn.addEventListener('click', () => setMenu(!menuOpen));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && menuOpen) { setMenu(false); menuBtn.focus(); } });
 
   /* In-page links (menu, "Your business", brand) */
   document.querySelectorAll('a[href^="#"]').forEach((a) => {
@@ -46,7 +65,7 @@
       const target = id === '#top' ? 0 : document.querySelector(id);
       if (target === null) return;
       e.preventDefault();
-      if (!menu.hidden) setMenu(false);
+      if (menuOpen) setMenu(false);
       scrollToTarget(target);
     });
   });
