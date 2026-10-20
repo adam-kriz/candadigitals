@@ -60,14 +60,14 @@ Animace: nadpis naskakuje po slovech; tři vrstvy loga v úvodu se při scrollu 
 natáčejí se za myší; intro text se při scrollu „rozsvěcuje“ po slovech; u projektů jede za
 myší náhled; služby = rozbalovací seznam (otevřená jen jedna); čára „How we work“ se
 kreslí při scrollu; štítky „I need…“ padají a jdou přetahovat (jen počítač s myší, na
-mobilu obyčejná tlačítka); magnetická tlačítka. Hodiny + počasí Sarasota (°F) a Praha
+mobilu obyčejná tlačítka); magnetická tlačítka. Hodiny + počasí „Our desk“ Florida (°F, souřadnice Sarasoty) a Praha
 (°C) přes Open-Meteo (bez klíče). **Omezené animace v systému → klidná verze** bez
 animací a plynulého scrollu (ověřeno).
 
 Zatím **náhled**: `noindex`, e-mail `hello@candadigitals.com` je **jen zástupný**
 (doména není koupená), formulář nic neposílá (jen hláška „preview“). Projekty jsou jen
 ukázkové weby; Key Sailing a Sailing Home až se souhlasem Jan. Texty jsou Claudův návrh
-— Adam a Chris je upraví. „Our desk: Prague“ — ověřit, kde je Chris.
+— Adam a Chris je upraví. „Our desk“ = Florida a Praha (Adam 20. 10. 2026).
 
 Lokální náhled: konfigurace `candadigitals` v kořenovém `.claude/launch.json`
 (Python `http.server`, port 8130) → http://localhost:8130
