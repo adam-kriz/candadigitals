@@ -237,36 +237,38 @@
     const T = 400;
     const wallOpts = { isStatic: true, friction: 0.5, restitution: 0.2 };
     let walls = [];
-    // A closed box: floor, side walls and a ceiling from the very start, so nothing
-    // can fly out of the top.
+    // Chips fall in from above, so the box starts open at the top. The ceiling goes
+    // in the moment every chip is fully inside, and from then on nothing can fly out.
+    let ceiling = false;
     const buildWalls = () => {
       if (walls.length) Composite.remove(engine.world, walls);
       walls = [
         Bodies.rectangle(W / 2, H + T / 2, W + T * 2, T, wallOpts),
-        Bodies.rectangle(W / 2, -T / 2, W + T * 2, T, wallOpts),
-        Bodies.rectangle(-T / 2, H / 2, T, H + T * 2, wallOpts),
-        Bodies.rectangle(W + T / 2, H / 2, T, H + T * 2, wallOpts)
+        Bodies.rectangle(-T / 2, H / 2 - T, T, H + T * 4, wallOpts),
+        Bodies.rectangle(W + T / 2, H / 2 - T, T, H + T * 4, wallOpts)
       ];
+      if (ceiling) walls.push(Bodies.rectangle(W / 2, -T / 2, W + T * 2, T, wallOpts));
       Composite.add(engine.world, walls);
     };
     buildWalls();
 
-    // Start every chip at a random, non-overlapping spot inside the box, tilted at a
-    // random angle and with a small random nudge, so they tumble down differently
-    // every time instead of dropping straight in neat rows.
+    // Start every chip at a random, non-overlapping spot high above the box, tilted
+    // at a random angle and with a small random nudge, so they drop in out of nowhere
+    // and tumble down differently every time.
     const start = [];
     const placed = [];
+    const SKY = 420; // how far above the box the chips can start
     chips.forEach((chip, i) => {
       const w = chip.offsetWidth;
       const h = chip.offsetHeight;
       let spot = null;
       for (let tries = 0; tries < 80 && !spot; tries++) {
         const x = w / 2 + 6 + Math.random() * Math.max(1, W - w - 12);
-        const y = h / 2 + 6 + Math.random() * Math.max(1, H * 0.7 - h);
+        const y = -h - Math.random() * SKY;
         const r = { l: x - w / 2 - 6, r: x + w / 2 + 6, t: y - h / 2 - 6, b: y + h / 2 + 6 };
         if (!placed.some((p) => r.l < p.r && r.r > p.l && r.t < p.b && r.b > p.t)) { spot = { x, y }; placed.push(r); }
       }
-      start[i] = spot || { x: w / 2 + Math.random() * (W - w), y: h / 2 + 6 };
+      start[i] = spot || { x: w / 2 + Math.random() * (W - w), y: -h - SKY - i * h };
     });
     const pairs = chips.map((chip, i) => {
       const w = chip.offsetWidth;
@@ -277,7 +279,7 @@
       return { chip, body, w, h };
     });
     const nudge = () => pairs.forEach(({ body }) => {
-      Body.setVelocity(body, { x: (Math.random() - 0.5) * 6, y: Math.random() * 2 });
+      Body.setVelocity(body, { x: (Math.random() - 0.5) * 4, y: Math.random() * 3 });
       Body.setAngularVelocity(body, (Math.random() - 0.5) * 0.12);
     });
     const clamp = (v, lo, hi) => Math.min(Math.max(v, lo), hi);
@@ -311,9 +313,23 @@
       });
     });
     Events.on(engine, 'afterUpdate', () => {
+      if (!ceiling) {
+        const allIn = pairs.every(({ body }) => body.bounds.min.y > 2);
+        // Fallback: if a chip is still hanging above after 4 s (say it was grabbed and
+        // held up there), tuck it inside so the ceiling can close.
+        if (!allIn && engine.timing.timestamp > 4000 && !mc.body) {
+          pairs.forEach(({ body, w, h }) => {
+            if (body.bounds.min.y <= 2) {
+              Body.setPosition(body, { x: clamp(body.position.x, w / 2, W - w / 2), y: h });
+              Body.setVelocity(body, { x: 0, y: 0 });
+            }
+          });
+        }
+        if (allIn || (engine.timing.timestamp > 4000 && !mc.body)) { ceiling = true; buildWalls(); }
+      }
       // Safety net: anything that still ends up outside the box is put back inside.
       pairs.forEach(({ body, w, h }) => {
-        const out = body.position.x < -w / 2 || body.position.x > W + w / 2 || body.position.y > H + h || body.position.y < -h / 2;
+        const out = body.position.x < -w / 2 || body.position.x > W + w / 2 || body.position.y > H + h || body.position.y < (ceiling ? -h / 2 : -SKY - h * 12);
         if (out) {
           Body.setPosition(body, { x: clamp(body.position.x, w / 2, W - w / 2), y: H - h });
           Body.setVelocity(body, { x: 0, y: 0 });
@@ -324,7 +340,7 @@
     const render = () => pairs.forEach(({ chip, body, w, h }) => {
       chip.style.transform = `translate3d(${body.position.x - w / 2}px, ${body.position.y - h / 2}px, 0) rotate(${body.angle}rad)`;
     });
-    render(); // show the starting layout until the box scrolls into view
+    render(); // the chips wait above the box (hidden by its overflow) until it scrolls into view
 
     // Fixed small time steps, drawn every animation frame: smoother than Matter's Runner.
     const STEP = 1000 / 120;
