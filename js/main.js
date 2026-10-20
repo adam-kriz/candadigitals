@@ -107,14 +107,24 @@
     const img = preview.querySelector('img');
     const xTo = gsap.quickTo(preview, 'x', { duration: 0.5, ease: 'power3' });
     const yTo = gsap.quickTo(preview, 'y', { duration: 0.5, ease: 'power3' });
-    window.addEventListener('mousemove', (e) => { xTo(e.clientX); yTo(e.clientY); });
-    document.querySelectorAll('.work-row[data-img]').forEach((row) => {
-      row.addEventListener('mouseenter', () => {
+    // Check what is under the pointer on every move AND every scroll: when the page
+    // scrolls under a still mouse, no mouseleave fires and the preview would get stuck.
+    let px = -1, py = -1, current = null;
+    const update = () => {
+      const el = px < 0 ? null : document.elementFromPoint(px, py);
+      const row = el ? el.closest('.work-row[data-img]') : null;
+      if (row === current) return;
+      current = row;
+      if (row) {
         img.src = row.dataset.img;
-        gsap.to(preview, { opacity: 1, scale: 1, duration: 0.4, ease: 'power3.out' });
-      });
-      row.addEventListener('mouseleave', () => gsap.to(preview, { opacity: 0, scale: 0.85, duration: 0.3 }));
-    });
+        gsap.to(preview, { opacity: 1, scale: 1, duration: 0.4, ease: 'power3.out', overwrite: true });
+      } else {
+        gsap.to(preview, { opacity: 0, scale: 0.85, duration: 0.3, overwrite: true });
+      }
+    };
+    window.addEventListener('mousemove', (e) => { px = e.clientX; py = e.clientY; xTo(px); yTo(py); update(); });
+    window.addEventListener('scroll', update, { passive: true });
+    document.addEventListener('mouseleave', () => { px = -1; update(); });
   }
 
   /* Magnetic buttons */

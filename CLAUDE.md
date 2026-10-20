@@ -51,7 +51,7 @@ tmavá, obří nadpisy verzálkami, hodně animací. Statický web bez build ste
 | `index.html` | celá stránka: Hero → pás služeb → Intro → Work → Services → Packages → How we work → Contact „I need…“ → patička |
 | `style.css` | vzhled; barvy jako proměnné v `:root` (stejné jako logo) |
 | `js/main.js` | animace a interakce |
-| `images/work/` | screenshoty ukázkových webů (Autoservis Král, Dílna Bartoš) |
+| `images/work/` | screenshoty projektů v sekci Work: Key Sailing Sarasota, malej podnik |
 
 Knihovny z CDN: **GSAP 3.12.5 + ScrollTrigger** (animace při scrollu), **Lenis 1.1.13**
 (plynulý scroll), **Matter.js 0.19.0** (padající štítky v kontaktu). Písmo Hanken Grotesk.
@@ -64,8 +64,8 @@ mobilu obyčejná tlačítka); magnetická tlačítka. Hodiny „Our desk“ Flo
 animací a plynulého scrollu (ověřeno).
 
 Zatím **náhled**: `noindex`, e-mail `hello@candadigitals.com` je **jen zástupný**
-(doména není koupená), formulář nic neposílá (jen hláška „preview“). Projekty jsou jen
-ukázkové weby; Key Sailing a Sailing Home až se souhlasem Jan. Texty jsou Claudův návrh
+(doména není koupená), formulář nic neposílá (jen hláška „preview“). Projekty (od 20. 10. 2026 na Adamovo přání): **Key Sailing
+Sarasota** (siestakeysailing.com) a **malej podnik** (github.io náhled). Texty jsou Claudův návrh
 — Adam a Chris je upraví. „Our desk“ = Florida a Praha (Adam 20. 10. 2026).
 
 Lokální náhled: konfigurace `candadigitals` v kořenovém `.claude/launch.json`
