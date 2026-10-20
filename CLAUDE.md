@@ -9,8 +9,9 @@ Web bude **anglicky**.
 **Jen značka (20. 10. 2026)**: název a logo jsou uložené „prozatím“, můžou se ještě
 změnit (Adam to ukazuje Chrisovi). Web se zatím nestaví; bude ve **stejném repu**
 (tahle složka). Vlastní git, GitHub repo
-[adam-kriz/candadigitals](https://github.com/adam-kriz/candadigitals) (soukromé,
-založeno 20. 10. 2026). Pushovat jen s Adamovým výslovným souhlasem.
+[adam-kriz/candadigitals](https://github.com/adam-kriz/candadigitals) (založeno
+20. 10. 2026, od téhož dne **veřejné**). Náhled: **https://adam-kriz.github.io/candadigitals/**
+(GitHub Pages z větve `main`). Pushovat jen s Adamovým výslovným souhlasem.
 
 ## Název
 
