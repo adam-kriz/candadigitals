@@ -170,9 +170,11 @@
       .to('.hero .fade', { opacity: 1, y: 0, duration: 1, stagger: 0.1 }, 0.6);
 
     // The three layers of the logo drift apart as you scroll away from the hero.
+    // This moves the shapes inside each layer, while the entrance above moves the
+    // layer groups, so scrolling during the entrance can't leave the logo scattered.
     gsap.timeline({ scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } })
-      .to('.layer-1', { y: -70 }, 0)
-      .to('.layer-3', { y: 70 }, 0)
+      .fromTo('.layer-1 > *', { y: 0 }, { y: -70, immediateRender: false }, 0)
+      .fromTo('.layer-3 > *', { y: 0 }, { y: 70, immediateRender: false }, 0)
       .to('.hero-layers', { rotate: -8 }, 0);
 
     // Small tilt toward the mouse.
