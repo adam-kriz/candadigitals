@@ -91,7 +91,13 @@ button { font: inherit; color: inherit; cursor: pointer; }
   width: min(22vw, 340px);
   color: var(--ink); pointer-events: none;
 }
-.hero-layers svg { overflow: visible; }
+/* The drawing area reaches well past the mark (viewBox -20 -80 136 256 around the
+   96x96 logo), so the layers can drift apart and tilt without being clipped. */
+.hero-layers { aspect-ratio: 1; }
+.hero-layers svg {
+  position: absolute; left: -20.833%; top: -83.333%;
+  width: 141.667%; height: 266.667%; max-width: none; overflow: visible;
+}
 
 .hero-bottom {
   position: relative; z-index: 2;
