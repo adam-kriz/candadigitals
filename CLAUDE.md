@@ -56,9 +56,8 @@ tmavá, obří nadpisy verzálkami, hodně animací. Statický web bez build ste
 Knihovny z CDN: **GSAP 3.12.5 + ScrollTrigger** (animace při scrollu), **Lenis 1.1.13**
 (plynulý scroll), **Matter.js 0.19.0** (padající štítky v kontaktu). Písmo Hanken Grotesk.
 
-Animace: nadpis naskakuje po slovech; logo v úvodu se natáčí za myší a při scrollu
-zůstane celé, jen zpomaleně odjede a zmizí dřív, než dojede k hornímu okraji (rozjíždění
-vrstev Adam 20. 10. 2026 nechtěl — vypadalo rozbitě); intro text se při scrollu „rozsvěcuje“ po slovech; u projektů jede za
+Animace: nadpis naskakuje po slovech; tři vrstvy loga v úvodu se při scrollu rozjedou
+(Adamovi se to líbí, nechat) a natáčejí se za myší; intro text se při scrollu „rozsvěcuje“ po slovech; u projektů jede za
 myší náhled; služby = rozbalovací seznam (otevřená jen jedna); čára „How we work“ se
 kreslí při scrollu; štítky „I need…“ padají a jdou přetahovat (jen počítač s myší, na
 mobilu obyčejná tlačítka); magnetická tlačítka. Hodiny „Our desk“ Florida a Praha (bez počasí, Adam ho 20. 10. 2026 nechtěl). **Omezené animace v systému → klidná verze** bez
