@@ -74,6 +74,9 @@ Zatím **náhled**: `noindex`, e-mail `hello@candadigitals.com` je **jen zástup
 (aveoengineering.com, dělal Chris), 2. **Key Sailing Sarasota** (siestakeysailing.com). Texty jsou Claudův návrh
 — Adam a Chris je upraví. „Our desk“ = Florida a Praha (Adam 20. 10. 2026).
 
+Rozmazání pod hlavičkou po scrollu = **jen 2 vrstvy** `backdrop-filter` (silná nahoře, slabá níž) +
+slábnoucí tónování. Se 4 vrstvami se scroll trhal (změřeno 21. 10. 2026) — vrstvy nepřidávat.
+
 Lokální náhled: konfigurace `candadigitals` v kořenovém `.claude/launch.json`
 (Python `http.server`, port 8130) → http://localhost:8130
 

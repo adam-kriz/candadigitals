@@ -46,32 +46,23 @@ button { font: inherit; color: inherit; cursor: pointer; }
   transition: color 0.3s, padding 0.4s var(--ease);
 }
 /* Once the page scrolls, a frosted layer keeps the logo and menu readable over
-   content. It is a progressive blur: four layers whose blur gets weaker further
-   down, plus a tint that fades out, so there is no visible edge. */
+   content. It is a progressive blur: a strong blur near the top and a light one
+   reaching further down, plus a tint that fades out, so there is no visible edge.
+   (Two layers, not more: every backdrop blur is costly while scrolling.) */
 .header-fade {
-  position: absolute; inset: 0 0 -72px 0; z-index: -1; pointer-events: none;
+  position: absolute; inset: 0 0 -64px 0; z-index: -1; pointer-events: none;
   opacity: 0; transition: opacity 0.4s;
 }
 .header-fade span { position: absolute; inset: 0; }
 .header-fade span:nth-child(1) {
-  -webkit-backdrop-filter: blur(1.5px); backdrop-filter: blur(1.5px);
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 60%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 0%, #000 60%, transparent 100%);
+  -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 50%, rgba(0, 0, 0, 0.5) 75%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 50%, rgba(0, 0, 0, 0.5) 75%, transparent 100%);
 }
 .header-fade span:nth-child(2) {
-  -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 45%, transparent 80%);
-  mask-image: linear-gradient(to bottom, #000 0%, #000 45%, transparent 80%);
-}
-.header-fade span:nth-child(3) {
-  -webkit-backdrop-filter: blur(9px); backdrop-filter: blur(9px);
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 35%, transparent 65%);
-  mask-image: linear-gradient(to bottom, #000 0%, #000 35%, transparent 65%);
-}
-.header-fade span:nth-child(4) {
-  -webkit-backdrop-filter: blur(18px) saturate(1.3); backdrop-filter: blur(18px) saturate(1.3);
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 30%, transparent 52%);
-  mask-image: linear-gradient(to bottom, #000 0%, #000 30%, transparent 52%);
+  -webkit-backdrop-filter: blur(14px) saturate(1.3); backdrop-filter: blur(14px) saturate(1.3);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 32%, rgba(0, 0, 0, 0.45) 48%, transparent 66%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 32%, rgba(0, 0, 0, 0.45) 48%, transparent 66%);
 }
 .header-fade::after {
   content: ""; position: absolute; inset: 0;
@@ -274,7 +265,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   padding: 14px 26px; font-size: clamp(17px, 1.7vw, 22px); white-space: nowrap; user-select: none;
   transition: background 0.25s, color 0.25s;
 }
-.chips.is-physics .chip { position: absolute; left: 0; top: 0; will-change: transform; cursor: grab; padding: 11px 21px; font-size: 18px; }
+.chips.is-physics .chip { position: absolute; left: 0; top: 0; will-change: transform; cursor: grab; padding: 13px 25px; font-size: 20px; }
 .chips.is-grabbing, .chips.is-grabbing .chip { cursor: grabbing; }
 .chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
 
