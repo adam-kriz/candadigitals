@@ -63,8 +63,8 @@ tmavá, obří nadpisy verzálkami, hodně animací. Statický web bez build ste
 | `functions/api/contact.js` | formulář → e-mail přes Resend, ochrana honeypot + Turnstile (převzato z Key Sailing) |
 | `wrangler.toml` | nastavení Pages: výstup `site`, proměnné; `FORMS_LIVE = "false"` → vše jde na `TEST_TO` |
 
-Knihovny z CDN: **GSAP 3.12.5 + ScrollTrigger** (animace při scrollu), **Lenis 1.1.13**
-(plynulý scroll), **Matter.js 0.19.0** (padající štítky v kontaktu). Písmo Hanken Grotesk.
+Knihovny (od 21. 10. 2026 v `site/js/vendor/`, ne z CDN): **GSAP 3.12.5 + ScrollTrigger** (animace při scrollu), **Lenis 1.1.13**
+(plynulý scroll), **Matter.js 0.19.0** (padající štítky v kontaktu). Písmo Hanken Grotesk ze `site/fonts/`.
 
 Animace: nadpis naskakuje po slovech; tři vrstvy loga v úvodu se při scrollu rozjedou
 (Adamovi se to líbí, nechat) a natáčejí se za myší; intro text se při scrollu „rozsvěcuje“ po slovech; u projektů jede za
@@ -112,8 +112,10 @@ Zbývá **při spuštění**:
 
 Právní věci (rozhodnout s Chrisem, Claude není právník): živnost/firma + na web jméno, IČO a sídlo
 (§ 435 OZ) dřív, než se začnou brát peníze; souhlas Key Sailing a Aveo s ukázkou na webu;
-Google Fonts a knihovny z CDN přesunout přímo na web (GDPR — Mnichov 2022), čeká na Adamův
-souhlas se stažením souborů; cookies se nepoužívají → lišta není potřeba.
+Google Fonts a knihovny z CDN jsou **přímo na webu** (21. 10. 2026, kvůli GDPR — Mnichov 2022):
+`site/fonts/` (Hanken Grotesk latin + latin-ext, licence `OFL.txt`) a `site/js/vendor/` (GSAP 3.12.5,
+ScrollTrigger, Lenis 1.1.13, Matter.js 0.19.0; kontrolní součty ověřené proti cdnjs). Jediná cizí
+adresa je Cloudflare Turnstile (nutné pro ochranu formuláře, uvedené v Privacy Policy); cookies se nepoužívají → lišta není potřeba.
 
 Další verze: formulář přes Cloudflare Pages Function + Resend (jako Key Sailing),
 3D logo v úvodu, ceny, hosting na Cloudflare Pages, vlastní doména a e-mail.
