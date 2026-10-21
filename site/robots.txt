@@ -1,0 +1,5 @@
+# Everyone is welcome, AI crawlers included (we sell "AI search visibility").
+User-agent: *
+Allow: /
+
+Sitemap: https://candadigitals.com/sitemap.xml

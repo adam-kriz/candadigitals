@@ -1,0 +1,29 @@
+# C&A Digitals
+
+> A two-person web studio (Chris and Adam). We design, build and look after websites for small businesses across the US, fully remote, from Florida and Prague.
+
+## Services
+- Website design & build: custom sites, fast on phones, launched on the client's own domain; moving old sites without losing Google rankings, old links or email
+- Google Business Profile & maps: Google, Apple Maps, Bing, Yelp and TripAdvisor with the same details everywhere
+- Reviews: short review link and print-ready QR cards
+- Bookings, payments & gift cards: call/text/WhatsApp buttons, spam-protected forms, online bookings, Stripe payments and gift cards (accounts stay in the client's name)
+- Other language versions: Spanish, Portuguese, French and more, checked by a native speaker
+- Accessibility (ADA): checking and fixing sites for screen readers, keyboards and large text
+- Monthly care: hosting, backups, small edits and a monthly report
+- Also: owner-editable sites, AI search visibility, photo and video polish, logo and brand basics, domain and business email (always in the client's name)
+
+## Packages
+- Starter: custom website, Google Business Profile, call/text and contact form
+- Growth: Starter plus reviews kit, bookings and payments, one extra language
+- Care: hosting, backups, small edits and a monthly report; add to either package
+
+## How we work
+Everything is remote: a 20-minute phone call, a short questionnaire and shared folder, a private preview link, two or three rounds of feedback, then launch with a short how-to video and ongoing care.
+
+## Work
+- Aveo Engineering (aerospace lighting, Czech Republic): https://www.aveoengineering.com
+- Key Sailing Sarasota (sailing charter, Sarasota, FL): https://siestakeysailing.com/
+
+## Contact
+- Email: hello@candadigitals.com
+- Website: https://candadigitals.com/

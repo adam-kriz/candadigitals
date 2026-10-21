@@ -386,11 +386,12 @@
     }).observe(chipsBox);
   }
 
-  /* Form (preview only, not connected yet) */
+  /* Form → /api/contact (Cloudflare Pages Function → email through Resend) */
   const form = document.querySelector('.form');
   const status = form.querySelector('.form-status');
+  const sendBtn = form.querySelector('button[type="submit"]');
   form.addEventListener('input', (e) => e.target.removeAttribute('aria-invalid'));
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
     let ok = true;
     ['name', 'email'].forEach((n) => {
@@ -401,6 +402,25 @@
     });
     if (!ok) { status.textContent = 'Please add your name and a valid email.'; return; }
     form.elements.needs.value = chips.filter((c) => c.getAttribute('aria-pressed') === 'true').map((c) => c.textContent).join(', ');
-    status.textContent = 'Thanks! This is a preview, so the form isn\'t connected yet.';
+
+    sendBtn.disabled = true;
+    status.textContent = 'Sending…';
+    let result = null;
+    try {
+      const res = await fetch(form.action, { method: 'POST', body: new FormData(form) });
+      result = await res.json();
+    } catch (_) { /* network error or no backend (local preview) */ }
+
+    if (result && result.ok) {
+      form.reset();
+      chips.forEach((c) => c.setAttribute('aria-pressed', 'false'));
+      status.textContent = 'Thanks! We got your message and will get back to you within one business day.';
+    } else if (result && result.error === 'turnstile') {
+      status.textContent = 'The spam check didn\'t go through. Please wait a moment and try again.';
+    } else {
+      status.textContent = 'Sorry, that didn\'t send. Please email us at hello@candadigitals.com.';
+    }
+    if (window.turnstile) window.turnstile.reset();
+    sendBtn.disabled = false;
   });
 })();

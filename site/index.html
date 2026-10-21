@@ -17,11 +17,56 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="C&amp;A Digitals: Websites that bring you customers.">
 <meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://candadigitals.com/">
 <link rel="icon" href="brand/icon-dark.svg" type="image/svg+xml">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://candadigitals.com/#website",
+      "url": "https://candadigitals.com/",
+      "name": "C&A Digitals",
+      "inLanguage": "en",
+      "publisher": { "@id": "https://candadigitals.com/#studio" }
+    },
+    {
+      "@type": "ProfessionalService",
+      "@id": "https://candadigitals.com/#studio",
+      "name": "C&A Digitals",
+      "url": "https://candadigitals.com/",
+      "logo": "https://candadigitals.com/brand/icon-dark.svg",
+      "image": "https://candadigitals.com/images/og.jpg",
+      "email": "hello@candadigitals.com",
+      "description": "A two-person web studio. We design, build and look after websites for small businesses across the US, fully remote.",
+      "areaServed": { "@type": "Country", "name": "United States" },
+      "founder": [
+        { "@type": "Person", "name": "Adam Kříž" },
+        { "@type": "Person", "name": "Chris" }
+      ],
+      "knowsLanguage": ["en", "cs"],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Services",
+        "itemListElement": [
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Website design and build" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Google Business Profile and maps listings" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Reviews kit" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Bookings, payments and gift cards" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Other language versions" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Website accessibility (ADA)" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Monthly website care" } }
+        ]
+      }
+    }
+  ]
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300..800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=17">
+<link rel="stylesheet" href="style.css?v=18">
 <script>document.documentElement.classList.add('js')</script>
 </head>
 <body>
@@ -263,16 +308,22 @@
       <button type="button" class="chip" aria-pressed="false">a logo</button>
     </div>
 
-    <form class="form" novalidate>
+    <form class="form" action="/api/contact" method="post" novalidate>
       <div class="field"><label for="f-name">Your name</label><input id="f-name" name="name" autocomplete="name" required></div>
       <div class="field"><label for="f-biz">Business</label><input id="f-biz" name="business" autocomplete="organization"></div>
       <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
       <div class="field field-wide"><label for="f-msg">Tell us a bit about it</label><textarea id="f-msg" name="message" rows="4"></textarea></div>
       <input type="hidden" name="needs">
+      <!-- Honeypot: hidden from people, bots fill it in and the message is dropped. -->
+      <div class="hp" aria-hidden="true"><label for="f-website">Website</label><input id="f-website" name="website" tabindex="-1" autocomplete="off"></div>
+      <!-- Cloudflare Turnstile spam check. data-sitekey is Cloudflare's always-pass TEST key
+           until the real widget for candadigitals.com exists (see CLAUDE.md). -->
+      <div class="cf-turnstile field-wide" data-sitekey="1x00000000000000000000AA" data-theme="dark"></div>
       <div class="form-foot">
         <button class="btn magnetic" type="submit"><span>Send</span></button>
         <p class="form-status" role="status" aria-live="polite"></p>
       </div>
+      <p class="form-legal field-wide">We only use your details to reply to you. See our <a href="privacy.html">Privacy Policy</a>.</p>
     </form>
   </section>
 
@@ -283,7 +334,7 @@
   <div class="footer-row">
     <a href="mailto:hello@candadigitals.com">hello@candadigitals.com</a>
     <span>Websites for small businesses · Remote from Prague and Florida</span>
-    <span>© 2026 C&amp;A Digitals</span>
+    <span>© 2026 C&amp;A Digitals · <a href="privacy.html">Privacy</a></span>
     <button class="to-top magnetic" type="button"><span>Back to top ↑</span></button>
   </div>
 </footer>
@@ -292,6 +343,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
 <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js" defer></script>
-<script src="js/main.js?v=15" defer></script>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<script src="js/main.js?v=16" defer></script>
 </body>
 </html>

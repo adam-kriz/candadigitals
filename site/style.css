@@ -269,7 +269,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .chips.is-grabbing, .chips.is-grabbing .chip { cursor: grabbing; }
 .chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
 
-.form { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px 20px; }
+.form { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px 20px; }
 .field { display: grid; gap: 6px; }
 .field-wide { grid-column: 1 / -1; }
 .field label { font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
@@ -282,6 +282,11 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .field [aria-invalid="true"] { border-bottom-color: #F09595; }
 .form-foot { grid-column: 1 / -1; display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
 .form-status { margin: 0; color: var(--muted); }
+.form-legal { margin: 0; color: var(--muted); font-size: 14px; }
+.form-legal a { color: var(--ink); }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.cf-turnstile { min-height: 65px; }
+.btn:disabled { opacity: 0.6; cursor: progress; }
 
 .btn {
   display: inline-flex; align-items: center; justify-content: center;
@@ -342,3 +347,23 @@ button { font: inherit; color: inherit; cursor: pointer; }
   .intro-text .w { opacity: 1; }
   .marquee-track { animation: none; }
 }
+
+/* Inner pages: Privacy Policy and 404 */
+.header-link { font-size: 18px; text-decoration: none; }
+.header-link:hover { color: var(--gray); }
+.legal { max-width: 760px; padding: 140px var(--pad) 80px; }
+.legal-title, .notfound-title {
+  margin: 0; font-weight: 800; text-transform: uppercase;
+  font-size: clamp(48px, 9vw, 120px); line-height: 0.88; letter-spacing: -0.05em;
+}
+.legal-updated { margin: 16px 0 48px; color: var(--muted); }
+.legal section { padding: 28px 0; border-top: 1px solid var(--line); }
+.legal h2 { margin: 0 0 12px; font-size: 24px; font-weight: 600; letter-spacing: -0.02em; }
+.legal p, .legal li { color: var(--muted); }
+.legal strong { color: var(--ink); font-weight: 600; }
+.legal ul { padding-left: 1.2em; }
+.legal mark { background: #F09595; color: var(--bg); padding: 0 4px; border-radius: 4px; }
+.footer-small { padding-top: 32px; }
+.notfound { min-height: 100vh; min-height: 100svh; display: flex; flex-direction: column; justify-content: center; gap: 24px; align-items: flex-start; padding: 120px var(--pad) 60px; }
+.notfound p { margin: 0; color: var(--muted); font-size: 20px; }
+.notfound .btn { text-decoration: none; }

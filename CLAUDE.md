@@ -49,11 +49,19 @@ tmavá, obří nadpisy verzálkami, hodně animací. Statický web bez build ste
 
 | Soubor | Co to je |
 |---|---|
-| `index.html` | celá stránka: Hero → pás služeb → Intro → Work → Services → Packages → How we work → Contact „I need…“ → patička |
-| `style.css` | vzhled; barvy jako proměnné v `:root` (stejné jako logo) |
-| `js/main.js` | animace a interakce |
-| `images/og.jpg` | náhled odkazu (iMessage, WhatsApp, Messenger): screenshot úvodu 1200×630; v `<head>` jako `og:image` s absolutní adresou na github.io — při přesunu na vlastní doménu změnit |
-| `images/work/` | screenshoty projektů v sekci Work: Aveo Engineering, Key Sailing Sarasota |
+| `site/` | **jen tahle složka jde na web** (Cloudflare Pages „build output“); `CLAUDE.md`, `functions/` a `wrangler.toml` zůstávají mimo |
+| `site/index.html` | celá stránka: Hero → pás služeb → Intro → Work → Services → Packages → How we work → Contact „I need…“ → patička |
+| `site/style.css` | vzhled; barvy jako proměnné v `:root` (stejné jako logo) |
+| `site/js/main.js` | animace, interakce a odeslání formuláře |
+| `site/images/og.jpg` | náhled odkazu (iMessage, WhatsApp, Messenger): screenshot úvodu 1200×630; v `<head>` jako `og:image` s absolutní adresou na github.io — při přesunu na vlastní doménu změnit |
+| `site/images/work/` | screenshoty projektů v sekci Work: Aveo Engineering, Key Sailing Sarasota |
+
+| `site/privacy.html` | Privacy Policy (GDPR + US); **obsahuje zástupné údaje** `[Chris's full name]`, `[Postal address]` (červeně) — doplnit před spuštěním |
+| `site/404.html` | stránka „Lost a layer.“ (absolutní cesty `/…`) |
+| `site/robots.txt`, `site/sitemap.xml`, `site/llms.txt` | pro vyhledávače a AI; JSON-LD (`ProfessionalService`) je v `<head>` index.html — u zakladatele „Chris“ doplnit celé jméno |
+| `site/_headers` | bezpečnostní hlavičky + `noindex` pro náhledy na `*.pages.dev` |
+| `functions/api/contact.js` | formulář → e-mail přes Resend, ochrana honeypot + Turnstile (převzato z Key Sailing) |
+| `wrangler.toml` | nastavení Pages: výstup `site`, proměnné; `FORMS_LIVE = "false"` → vše jde na `TEST_TO` |
 
 Knihovny z CDN: **GSAP 3.12.5 + ScrollTrigger** (animace při scrollu), **Lenis 1.1.13**
 (plynulý scroll), **Matter.js 0.19.0** (padající štítky v kontaktu). Písmo Hanken Grotesk.
@@ -78,7 +86,34 @@ Rozmazání pod hlavičkou po scrollu = **jen 2 vrstvy** `backdrop-filter` (siln
 slábnoucí tónování. Se 4 vrstvami se scroll trhal (změřeno 21. 10. 2026) — vrstvy nepřidávat.
 
 Lokální náhled: konfigurace `candadigitals` v kořenovém `.claude/launch.json`
-(Python `http.server`, port 8130) → http://localhost:8130
+(Python `http.server`, port 8130, složka `candadigitals/site`) → http://localhost:8130.
+Lokálně formulář ukáže „Sorry, that didn't send“ (Python server neumí funkci) — to je v pořádku.
+
+## Nasazení na candadigitals.com (plán z 21. 10. 2026)
+
+Rozhodnuto: firemní Gmail → účet Cloudflare → doména **candadigitals.com** přes Cloudflare
+Registrar; hosting **Cloudflare Pages** (Adam povolil propojení s GitHubem); e-mail **zdarma**
+přes Cloudflare Email Routing (přeposílání do Gmailu); Resend = existující účet (přidat doménu);
+obsah webu zatím beze změny. Účty a platby dělá Adam sám, Claude dává návod.
+
+Hotovo v kódu (21. 10. 2026, commitnuté, **nepushnuté**, protože přesun do `site/` vypne
+náhled na github.io — pushnout až při propojení s Cloudflare Pages): přesun do `site/`,
+formulář, Privacy Policy, 404, robots/sitemap/llms.txt/JSON-LD, `_headers`.
+
+Zbývá **při spuštění**:
+- Turnstile widget pro candadigitals.com → nahradit testovací `data-sitekey` v `site/index.html`
+  (`1x00000000000000000000AA` = vždy projde) a dát secret do Pages
+- secrets `RESEND_API_KEY`, `TURNSTILE_SECRET_KEY`, `TEST_TO`; ověřit doménu v Resendu
+- odebrat `noindex` z `site/index.html`; `og:url` / `og:image` přepsat z github.io na
+  candadigitals.com
+- doplnit zástupné údaje v `site/privacy.html` a jméno v JSON-LD
+- test formuláře naostro → pak `FORMS_LIVE = "true"`; Email Routing hello@ → Gmail
+- vypnout GitHub Pages
+
+Právní věci (rozhodnout s Chrisem, Claude není právník): živnost/firma + na web jméno, IČO a sídlo
+(§ 435 OZ) dřív, než se začnou brát peníze; souhlas Key Sailing a Aveo s ukázkou na webu;
+Google Fonts a knihovny z CDN přesunout přímo na web (GDPR — Mnichov 2022), čeká na Adamův
+souhlas se stažením souborů; cookies se nepoužívají → lišta není potřeba.
 
 Další verze: formulář přes Cloudflare Pages Function + Resend (jako Key Sailing),
 3D logo v úvodu, ceny, hosting na Cloudflare Pages, vlastní doména a e-mail.
