@@ -6,7 +6,7 @@ Web bude **anglicky**.
 
 ## Status
 
-**Jen značka (20. 10. 2026)**: název a logo jsou uložené „prozatím“, můžou se ještě
+**Spuštěno na https://candadigitals.com (22. 10. 2026).** Původně: **Jen značka (20. 10. 2026)**: název a logo jsou uložené „prozatím“, můžou se ještě
 změnit (Adam to ukazuje Chrisovi). Web se zatím nestaví; bude ve **stejném repu**
 (tahle složka). Vlastní git, GitHub repo
 [adam-kriz/candadigitals](https://github.com/adam-kriz/candadigitals) (založeno
@@ -130,7 +130,9 @@ neřešíme — kdyby se zavedl, vrátit adresu na webu (index, privacy, llms.tx
 6. Ostré spuštění — kód připravený 22. 10. 2026: pryč `noindex` z index.html (privacy.html a 404
    ho mají dál schválně), `og:url`/`og:image` na candadigitals.com, canonical privacy → `/privacy`
    (odkazy v HTML zůstávají `privacy.html` kvůli lokálnímu náhledu; Pages je přesměruje 308),
-   Turnstile pod 360 px šířky v režimu `compact`. Po pushi: vypnout GitHub Pages
+   Turnstile pod 360 px šířky v režimu `compact`.
+   **SPUŠTĚNO 22. 10. 2026** — web na https://candadigitals.com je otevřený vyhledávačům (pages.dev
+   dál `noindex`), GitHub Pages vypnuté (github.io/candadigitals vrací 404)
 7. Po spuštění: Search Console + Bing (sitemap), Cloudflare Web Analytics
 
 Zbývá **při spuštění**:
