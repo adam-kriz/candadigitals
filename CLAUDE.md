@@ -127,8 +127,10 @@ neřešíme — kdyby se zavedl, vrátit adresu na webu (index, privacy, llms.tx
    místo adresy jen „Palm Coast, Florida, USA“ (kde bydlí Chris; Adam 22. 10. 2026 — podle GDPR
    stačí jména + e-mail). **Povinné před první placenou zakázkou:** živnost → na web (patička +
    privacy) jméno, celou adresu místa podnikání a IČO (§ 435 OZ)
-6. Ostré spuštění: pryč `noindex`, `og:url`/`og:image` na candadigitals.com, canonical privacy
-   → `/privacy` (Pages dělá z `.html` přesměrování 308), vypnout GitHub Pages
+6. Ostré spuštění — kód připravený 22. 10. 2026: pryč `noindex` z index.html (privacy.html a 404
+   ho mají dál schválně), `og:url`/`og:image` na candadigitals.com, canonical privacy → `/privacy`
+   (odkazy v HTML zůstávají `privacy.html` kvůli lokálnímu náhledu; Pages je přesměruje 308),
+   Turnstile pod 360 px šířky v režimu `compact`. Po pushi: vypnout GitHub Pages
 7. Po spuštění: Search Console + Bing (sitemap), Cloudflare Web Analytics
 
 Zbývá **při spuštění**:
