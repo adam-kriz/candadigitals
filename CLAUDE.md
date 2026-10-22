@@ -145,6 +145,9 @@ Zbývá **při spuštění**:
 - test formuláře naostro → pak `FORMS_LIVE = "true"`; Email Routing hello@ → Gmail
 - vypnout GitHub Pages
 
+**Adam (22. 10. 2026): živnost, IČO na webu, fakturace/daně a souhlasy Jan a Aveo Claude sám
+nepřipomíná — řeší je Adam, až sám začne.**
+
 Právní věci (rozhodnout s Chrisem, Claude není právník): živnost/firma + na web jméno, IČO a sídlo
 (§ 435 OZ) dřív, než se začnou brát peníze; souhlas Key Sailing a Aveo s ukázkou na webu;
 Google Fonts a knihovny z CDN jsou **přímo na webu** (21. 10. 2026, kvůli GDPR — Mnichov 2022):
