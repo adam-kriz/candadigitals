@@ -115,8 +115,8 @@ neřešíme — kdyby se zavedl, vrátit adresu na webu (index, privacy, llms.tx
    http → https 301). www → bez www řeší `functions/_middleware.js` (301, zachová cestu i parametry) —
    Redirect Rules v novém dashboardu Adam nenašel
 2. Turnstile widget „C&A Digitals“ (hostnames candadigitals.com + candadigitals.pages.dev, Managed) —
-   site key `0x4AAAAAAFgp_X2hEJ11RfCa` je v `site/index.html` (22. 10. 2026); secret → Pages secret
-   `TURNSTILE_SECRET_KEY` (vkládá Adam). Lokálně (localhost) widget hlásí chybu — to je v pořádku
+   site key `0x4AAAAAAFgp_X2hEJ11RfCa` je v `site/index.html` (22. 10. 2026); secret je v Pages jako
+   `TURNSTILE_SECRET_KEY` (Adam, 22. 10. 2026; funkce ho vidí). Lokálně (localhost) widget hlásí chybu — to je v pořádku
 3. Resend (existující účet): přidat a ověřit doménu candadigitals.com (DNS), API klíč → Pages secret
 4. Secrets `RESEND_API_KEY`, `TURNSTILE_SECRET_KEY` v Pages (typ **Secret**, prostředí **Production**;
    textové proměnné z dashboardu Pages ignoruje, protože existuje `wrangler.toml` → `TEST_TO` je v něm) → test formuláře →
