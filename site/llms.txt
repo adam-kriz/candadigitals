@@ -27,3 +27,6 @@ Everything is remote: a 20-minute phone call, a short questionnaire and shared f
 ## Contact
 - Email: candadigitals@gmail.com
 - Website: https://candadigitals.com/
+
+## Languages
+The site is available in English (https://candadigitals.com/), Spanish (https://candadigitals.com/es/) and Czech (https://candadigitals.com/cs/).

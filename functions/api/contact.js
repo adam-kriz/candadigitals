@@ -14,6 +14,7 @@ const FIELDS = [
   ["business", "Business"],
   ["email", "Email"],
   ["message", "Message"],
+  ["lang", "Page language"],
 ];
 const REQUIRED = ["name", "email"];
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

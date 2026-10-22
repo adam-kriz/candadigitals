@@ -158,6 +158,23 @@ adresa je Cloudflare Turnstile (nutné pro ochranu formuláře, uvedené v Priva
 Další verze: formulář přes Cloudflare Pages Function + Resend (jako Key Sailing),
 3D logo v úvodu, ceny, hosting na Cloudflare Pages, vlastní doména a e-mail.
 
+## Jazyky a barva (od 22. 10. 2026)
+
+- **Akcent: elektrická modrá** `--accent: #5B87FF` (Adam vybral „elektrickou modrou“ #4F7DFF, ta ale
+  nesplnila kontrast 4,5 : 1 na tmavém pozadí → o odstín světlejší). Text na modré = `--accent-ink`
+  `#121721`; na světlých plochách (menu, karta Growth) `--accent-deep` `#2F5EEB`. Modrá je: horní
+  vrstva loga na webu (soubory v `brand/` zůstaly šedé), poslední slovo nadpisu, tlačítka, čísla,
+  vybrané štítky, čára „How we work“.
+- **Úvod:** cílí na kohokoli (Adam: „prakticky na kohokoliv“), tlačítka **Book a free call** (→ #contact,
+  Calendly zatím není) a **See our work**, pod úvodem pás „Recently launched“ (Key Sailing, Aveo).
+- **Překlady:** angličtina je zdroj (`site/index.html`, `site/privacy.html`). Španělština (`site/es/`,
+  vykání „usted“) a čeština (`site/cs/`, vykání) se **generují** skriptem `i18n/build.py`
+  (`python3 candadigitals/i18n/build.py`) — **ručně je neupravovat**. Po změně anglického textu
+  doplnit překlad do skriptu a spustit ho; když anglický text v HTML nenajde, skončí chybou.
+  Přepínač EN · ES · CS v hlavičce, `hreflang` v `<head>`, sitemap se všemi jazyky. Hlášky
+  skriptu (formulář, kopírování) jsou v `MESSAGES` v `js/main.js`. Formulář posílá i `lang`.
+  Španělštinu by měl časem zkontrolovat rodilý mluvčí. Adam chce časem i další jazyky.
+
 ## Služby (pro budoucí web)
 
 Vychází z práce pro Key Sailing (`../key-sailing-site/`). Jádro: **web + Google

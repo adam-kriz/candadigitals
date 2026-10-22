@@ -17,6 +17,10 @@
 <meta property="og:image:alt" content="C&amp;A Digitals: Websites that bring you customers.">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://candadigitals.com/">
+<link rel="alternate" hreflang="en" href="https://candadigitals.com/">
+<link rel="alternate" hreflang="es" href="https://candadigitals.com/es/">
+<link rel="alternate" hreflang="cs" href="https://candadigitals.com/cs/">
+<link rel="alternate" hreflang="x-default" href="https://candadigitals.com/">
 <link rel="icon" href="brand/icon-dark.svg" type="image/svg+xml">
 <script type="application/ld+json">
 {
@@ -44,7 +48,7 @@
         { "@type": "Person", "name": "Adam Kříž" },
         { "@type": "Person", "name": "Christian Robert Nielsen", "alternateName": "Chris" }
       ],
-      "knowsLanguage": ["en", "cs"],
+      "knowsLanguage": ["en", "es", "cs"],
       "hasOfferCatalog": {
         "@type": "OfferCatalog",
         "name": "Services",
@@ -63,7 +67,7 @@
 }
 </script>
 <link rel="preload" href="fonts/hanken-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="style.css?v=22">
+<link rel="stylesheet" href="style.css?v=24">
 <script>document.documentElement.classList.add('js')</script>
 </head>
 <body>
@@ -76,6 +80,11 @@
     <svg class="brand-mark" viewBox="0 0 96 96" aria-hidden="true"><polygon class="accent-fill" points="48,12 84,30 48,48 12,30" stroke-width="4" stroke-linejoin="round"/><path d="M12 48 L48 66 L84 48 M12 64 L48 82 L84 64" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>
     <span>C&amp;A Digitals</span>
   </a>
+  <nav class="lang" aria-label="Language">
+    <a href="/" hreflang="en" lang="en" aria-current="page">EN</a>
+    <a href="/es/" hreflang="es" lang="es">ES</a>
+    <a href="/cs/" hreflang="cs" lang="cs">CS</a>
+  </nav>
   <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu">
     <span class="menu-open">menu.</span><span class="menu-close">close.</span>
   </button>
@@ -359,6 +368,7 @@
       <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
       <div class="field field-wide"><label for="f-msg">Tell us a bit about it</label><textarea id="f-msg" name="message" rows="4"></textarea></div>
       <input type="hidden" name="needs">
+      <input type="hidden" name="lang" value="en">
       <!-- Honeypot: hidden from people, bots fill it in and the message is dropped. -->
       <div class="hp" aria-hidden="true"><label for="f-website">Website</label><input id="f-website" name="website" tabindex="-1" autocomplete="off"></div>
       <!-- Cloudflare Turnstile spam check (widget "C&A Digitals": candadigitals.com + pages.dev). -->
@@ -390,6 +400,6 @@
 <script src="js/vendor/lenis.min.js" defer></script>
 <script src="js/vendor/matter.min.js" defer></script>
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-<script src="js/main.js?v=18" defer></script>
+<script src="js/main.js?v=19" defer></script>
 </body>
 </html>

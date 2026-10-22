@@ -4,6 +4,38 @@
   const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   const hasGsap = typeof window.gsap !== 'undefined' && typeof window.ScrollTrigger !== 'undefined';
 
+  // Messages the script writes into the page, per page language (<html lang>).
+  const MESSAGES = {
+    en: {
+      copied: 'Copied to clipboard.',
+      copyFailed: 'Copy failed, select the address instead.',
+      missing: 'Please add your name and a valid email.',
+      sending: 'Sending…',
+      sent: 'Thanks! We got your message and will get back to you within one business day.',
+      spam: 'The spam check didn\'t go through. Please wait a moment and try again.',
+      failed: 'Sorry, that didn\'t send. Please email us at candadigitals@gmail.com.',
+    },
+    es: {
+      copied: 'Copiado al portapapeles.',
+      copyFailed: 'No se pudo copiar. Seleccione la dirección.',
+      missing: 'Por favor, escriba su nombre y un correo válido.',
+      sending: 'Enviando…',
+      sent: '¡Gracias! Recibimos su mensaje y le responderemos en un día hábil.',
+      spam: 'La verificación antispam no se completó. Espere un momento e inténtelo de nuevo.',
+      failed: 'Lo sentimos, no se pudo enviar. Escríbanos a candadigitals@gmail.com.',
+    },
+    cs: {
+      copied: 'Zkopírováno.',
+      copyFailed: 'Kopírování se nepovedlo, označte adresu ručně.',
+      missing: 'Vyplňte prosím jméno a platný e-mail.',
+      sending: 'Odesílám…',
+      sent: 'Díky! Zprávu máme a ozveme se do jednoho pracovního dne.',
+      spam: 'Ochrana proti spamu neprošla. Chvíli počkejte a zkuste to znovu.',
+      failed: 'Omlouváme se, zprávu se nepodařilo odeslat. Napište nám na candadigitals@gmail.com.',
+    },
+  };
+  const T = MESSAGES[root.lang] || MESSAGES.en;
+
   // Without GSAP (or with reduced motion) everything just shows up, no animations.
   if (!hasGsap || reduceMotion) root.classList.remove('js');
   if (hasGsap) gsap.registerPlugin(ScrollTrigger);
@@ -81,7 +113,7 @@
   /* Clocks: Florida and Prague */
   const clocks = document.querySelectorAll('.clock');
   const tick = () => clocks.forEach((c) => {
-    c.querySelector('.clock-time').textContent = new Intl.DateTimeFormat('en-US', {
+    c.querySelector('.clock-time').textContent = new Intl.DateTimeFormat(root.lang === 'en' ? 'en-US' : root.lang, {
       hour: 'numeric', minute: '2-digit', timeZone: c.dataset.tz
     }).format(new Date());
   });
@@ -94,9 +126,9 @@
       const done = btn.parentElement.querySelector('.copy-done');
       try {
         await navigator.clipboard.writeText(btn.dataset.copy);
-        done.textContent = 'Copied to clipboard.';
+        done.textContent = T.copied;
       } catch (_) {
-        done.textContent = 'Copy failed, select the address instead.';
+        done.textContent = T.copyFailed;
       }
       setTimeout(() => { done.textContent = ''; }, 2500);
     });
@@ -400,11 +432,11 @@
       f.setAttribute('aria-invalid', String(bad));
       if (bad) ok = false;
     });
-    if (!ok) { status.textContent = 'Please add your name and a valid email.'; return; }
+    if (!ok) { status.textContent = T.missing; return; }
     form.elements.needs.value = chips.filter((c) => c.getAttribute('aria-pressed') === 'true').map((c) => c.textContent).join(', ');
 
     sendBtn.disabled = true;
-    status.textContent = 'Sending…';
+    status.textContent = T.sending;
     let result = null;
     try {
       const res = await fetch(form.action, { method: 'POST', body: new FormData(form) });
@@ -414,11 +446,11 @@
     if (result && result.ok) {
       form.reset();
       chips.forEach((c) => c.setAttribute('aria-pressed', 'false'));
-      status.textContent = 'Thanks! We got your message and will get back to you within one business day.';
+      status.textContent = T.sent;
     } else if (result && result.error === 'turnstile') {
-      status.textContent = 'The spam check didn\'t go through. Please wait a moment and try again.';
+      status.textContent = T.spam;
     } else {
-      status.textContent = 'Sorry, that didn\'t send. Please email us at candadigitals@gmail.com.';
+      status.textContent = T.failed;
     }
     if (window.turnstile) window.turnstile.reset();
     sendBtn.disabled = false;
