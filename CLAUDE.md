@@ -110,8 +110,8 @@ hello@candadigitals.com). Formulář chodí na `LIVE_TO` = tentýž Gmail. Email
 neřešíme — kdyby se zavedl, vrátit adresu na webu (index, privacy, llms.txt, main.js, wrangler.toml).
 
 **Další kroky (pořadí domluvené s Adamem 22. 10. 2026):**
-1. Custom domains v Pages projektu: candadigitals.com + www.candadigitals.com (dělá Adam, čeká se
-   na „Active“), pak přesměrování www → bez www
+1. ~~Custom domains~~ candadigitals.com + www **Active** (22. 10. 2026; https od Google Trust Services,
+   http → https 301). Zbývá: Redirect Rule www → bez www (www zatím vrací 200)
 2. Turnstile widget pro candadigitals.com (+ pages.dev) → site key do `site/index.html`, secret do Pages
 3. Resend (existující účet): přidat a ověřit doménu candadigitals.com (DNS), API klíč → Pages secret
 4. Secrets `RESEND_API_KEY`, `TURNSTILE_SECRET_KEY`, `TEST_TO` v Pages → test formuláře →
