@@ -95,7 +95,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 /* Over the light menu overlay the header turns dark and drops the frosted layer. */
 .header.menu-on { color: var(--bg); }
 .header.menu-on .header-fade { opacity: 0; }
-.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-size: 18px; letter-spacing: -0.01em; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-size: 18px; letter-spacing: -0.01em; white-space: nowrap; }
 .brand-mark { width: 30px; height: 30px; }
 /* Language switcher (EN / ES / CS) next to the menu button */
 .lang { display: flex; gap: 2px; margin-left: auto; margin-right: 20px; font-size: 14px; }
@@ -411,6 +411,14 @@ button { font: inherit; color: inherit; cursor: pointer; }
   .acc-icon { width: 36px; height: 36px; }
   .acc-body { padding: 0 0 24px 50px; }
   .chip { padding: 12px 20px; }
+}
+
+/* Very narrow phones: keep the logo, languages and menu on one line */
+@media (max-width: 380px) {
+  .brand { font-size: 16px; gap: 8px; }
+  .brand-mark { width: 26px; height: 26px; }
+  .lang { margin-right: 6px; font-size: 13px; }
+  .lang a { padding: 6px 5px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
