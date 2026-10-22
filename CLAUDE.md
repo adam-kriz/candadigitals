@@ -105,6 +105,22 @@ Hotovo v kódu (21. 10. 2026, commitnuté, **nepushnuté**, protože přesun do 
 náhled na github.io — pushnout až při propojení s Cloudflare Pages): přesun do `site/`,
 formulář, Privacy Policy, 404, robots/sitemap/llms.txt/JSON-LD, `_headers`.
 
+Kontaktní e-mail na webu = **candadigitals@gmail.com** (Adam 22. 10. 2026; dřív zástupný
+hello@candadigitals.com). Formulář chodí na `LIVE_TO` = tentýž Gmail. Email Routing hello@ zatím
+neřešíme — kdyby se zavedl, vrátit adresu na webu (index, privacy, llms.txt, main.js, wrangler.toml).
+
+**Další kroky (pořadí domluvené s Adamem 22. 10. 2026):**
+1. Custom domains v Pages projektu: candadigitals.com + www.candadigitals.com (dělá Adam, čeká se
+   na „Active“), pak přesměrování www → bez www
+2. Turnstile widget pro candadigitals.com (+ pages.dev) → site key do `site/index.html`, secret do Pages
+3. Resend (existující účet): přidat a ověřit doménu candadigitals.com (DNS), API klíč → Pages secret
+4. Secrets `RESEND_API_KEY`, `TURNSTILE_SECRET_KEY`, `TEST_TO` v Pages → test formuláře →
+   `FORMS_LIVE = "true"`
+5. Doplnit `[Chris's full name]` a `[Postal address]` v privacy.html + jméno v JSON-LD
+6. Ostré spuštění: pryč `noindex`, `og:url`/`og:image` na candadigitals.com, canonical privacy
+   → `/privacy` (Pages dělá z `.html` přesměrování 308), vypnout GitHub Pages
+7. Po spuštění: Search Console + Bing (sitemap), Cloudflare Web Analytics
+
 Zbývá **při spuštění**:
 - Turnstile widget pro candadigitals.com → nahradit testovací `data-sitekey` v `site/index.html`
   (`1x00000000000000000000AA` = vždy projde) a dát secret do Pages

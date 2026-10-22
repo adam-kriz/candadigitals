@@ -418,7 +418,7 @@
     } else if (result && result.error === 'turnstile') {
       status.textContent = 'The spam check didn\'t go through. Please wait a moment and try again.';
     } else {
-      status.textContent = 'Sorry, that didn\'t send. Please email us at hello@candadigitals.com.';
+      status.textContent = 'Sorry, that didn\'t send. Please email us at candadigitals@gmail.com.';
     }
     if (window.turnstile) window.turnstile.reset();
     sendBtn.disabled = false;
