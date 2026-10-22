@@ -60,6 +60,7 @@ tmavá, obří nadpisy verzálkami, hodně animací. Statický web bez build ste
 | `site/404.html` | stránka „Lost a layer.“ (absolutní cesty `/…`) |
 | `site/robots.txt`, `site/sitemap.xml`, `site/llms.txt` | pro vyhledávače a AI; JSON-LD (`ProfessionalService`) je v `<head>` index.html — u zakladatele „Chris“ doplnit celé jméno |
 | `site/_headers` | bezpečnostní hlavičky + `noindex` pro náhledy na `*.pages.dev` |
+| `functions/_middleware.js` | přesměrování www.candadigitals.com → candadigitals.com (301) |
 | `functions/api/contact.js` | formulář → e-mail přes Resend, ochrana honeypot + Turnstile (převzato z Key Sailing) |
 | `wrangler.toml` | nastavení Pages: výstup `site`, proměnné; `FORMS_LIVE = "false"` → vše jde na `TEST_TO` |
 
@@ -111,7 +112,8 @@ neřešíme — kdyby se zavedl, vrátit adresu na webu (index, privacy, llms.tx
 
 **Další kroky (pořadí domluvené s Adamem 22. 10. 2026):**
 1. ~~Custom domains~~ candadigitals.com + www **Active** (22. 10. 2026; https od Google Trust Services,
-   http → https 301). Zbývá: Redirect Rule www → bez www (www zatím vrací 200)
+   http → https 301). www → bez www řeší `functions/_middleware.js` (301, zachová cestu i parametry) —
+   Redirect Rules v novém dashboardu Adam nenašel
 2. Turnstile widget pro candadigitals.com (+ pages.dev) → site key do `site/index.html`, secret do Pages
 3. Resend (existující účet): přidat a ověřit doménu candadigitals.com (DNS), API klíč → Pages secret
 4. Secrets `RESEND_API_KEY`, `TURNSTILE_SECRET_KEY`, `TEST_TO` v Pages → test formuláře →
