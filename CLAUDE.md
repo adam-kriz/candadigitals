@@ -114,7 +114,9 @@ neřešíme — kdyby se zavedl, vrátit adresu na webu (index, privacy, llms.tx
 1. ~~Custom domains~~ candadigitals.com + www **Active** (22. 10. 2026; https od Google Trust Services,
    http → https 301). www → bez www řeší `functions/_middleware.js` (301, zachová cestu i parametry) —
    Redirect Rules v novém dashboardu Adam nenašel
-2. Turnstile widget pro candadigitals.com (+ pages.dev) → site key do `site/index.html`, secret do Pages
+2. Turnstile widget „C&A Digitals“ (hostnames candadigitals.com + candadigitals.pages.dev, Managed) —
+   site key `0x4AAAAAAFgp_X2hEJ11RfCa` je v `site/index.html` (22. 10. 2026); secret → Pages secret
+   `TURNSTILE_SECRET_KEY` (vkládá Adam). Lokálně (localhost) widget hlásí chybu — to je v pořádku
 3. Resend (existující účet): přidat a ověřit doménu candadigitals.com (DNS), API klíč → Pages secret
 4. Secrets `RESEND_API_KEY`, `TURNSTILE_SECRET_KEY`, `TEST_TO` v Pages → test formuláře →
    `FORMS_LIVE = "true"`
