@@ -108,7 +108,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .menu ul { list-style: none; margin: 0; padding: 0; }
 .menu a {
   display: flex; align-items: baseline; gap: 18px;
-  font-size: clamp(44px, 9vw, 120px); font-weight: 700; line-height: 1.02;
+  font-size: min(clamp(40px, 8vw, 110px), 11vh); font-weight: 700; line-height: 1.02;
   letter-spacing: -0.04em; text-transform: uppercase; text-decoration: none;
 }
 .menu a small { font-size: 14px; font-weight: 500; letter-spacing: 0; }
@@ -213,6 +213,30 @@ button { font: inherit; color: inherit; cursor: pointer; }
   .work-list:hover .work-row { color: var(--gray); }
   .work-list .work-row:hover { color: var(--ink); padding-left: 24px; }
 }
+
+/* About */
+.about-lead {
+  margin: 0 0 clamp(40px, 5vw, 72px); max-width: 24em;
+  font-size: clamp(24px, 3vw, 44px); font-weight: 500; line-height: 1.15; letter-spacing: -0.03em;
+}
+.people { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.person {
+  background: var(--bg-2); border: 1px solid var(--line); border-radius: 24px;
+  padding: clamp(28px, 3vw, 44px);
+}
+.person-place { margin: 0 0 28px; color: var(--muted); font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; }
+.person-name {
+  margin: 0; font-weight: 800; text-transform: uppercase;
+  font-size: clamp(56px, 7vw, 112px); line-height: 0.85; letter-spacing: -0.05em;
+}
+.person-role { margin: 14px 0 24px; color: var(--gray); font-size: clamp(18px, 1.6vw, 22px); }
+.person p:last-child { margin: 0; color: var(--muted); font-size: clamp(17px, 1.3vw, 19px); }
+.promises {
+  list-style: none; margin: clamp(32px, 4vw, 56px) 0 0; padding: 0;
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--line);
+}
+.promises li { padding: 20px 20px 0 0; font-size: clamp(16px, 1.3vw, 19px); }
+.promises span { display: block; margin-bottom: 10px; color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; }
 
 /* Services accordion */
 .acc { border-top: 1px solid var(--line); }
@@ -337,6 +361,8 @@ button { font: inherit; color: inherit; cursor: pointer; }
   .step { padding: 24px 0; border-top: 1px solid var(--line); display: grid; grid-template-columns: 56px minmax(0, 1fr); column-gap: 8px; }
   .step-num { margin: 4px 0 0; grid-row: span 2; }
   .extras { grid-template-columns: 1fr; }
+  .people { grid-template-columns: 1fr; }
+  .promises { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 8px; }
   .form { grid-template-columns: 1fr; }
 }
 @media (max-width: 640px) {

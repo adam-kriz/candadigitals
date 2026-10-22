@@ -200,7 +200,7 @@
       gsap.from(el, { yPercent: 40, opacity: 0, duration: 1.2, ease: 'expo.out', scrollTrigger: { trigger: el, start: 'top 88%' } });
     });
 
-    gsap.utils.toArray('.work-row, .acc-item, .pkg, .step, .extras-list li').forEach((el) => {
+    gsap.utils.toArray('.work-row, .about-lead, .person, .promises li, .acc-item, .pkg, .step, .extras-list li').forEach((el) => {
       gsap.from(el, { y: 40, opacity: 0, duration: 1, ease: 'expo.out', scrollTrigger: { trigger: el, start: 'top 92%' } });
     });
 

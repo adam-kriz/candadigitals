@@ -50,7 +50,7 @@ tmavá, obří nadpisy verzálkami, hodně animací. Statický web bez build ste
 | Soubor | Co to je |
 |---|---|
 | `site/` | **jen tahle složka jde na web** (Cloudflare Pages „build output“); `CLAUDE.md`, `functions/` a `wrangler.toml` zůstávají mimo |
-| `site/index.html` | celá stránka: Hero → pás služeb → Intro → Work → Services → Packages → How we work → Contact „I need…“ → patička |
+| `site/index.html` | celá stránka: Hero → pás služeb → Intro → Work → **About** (od 22. 10. 2026: Chris a Adam bez fotek, texty od Clauda — Adam je nechal na něm; role „Florida side“ / „build side“) → Services → Packages → How we work → Contact „I need…“ → patička |
 | `site/style.css` | vzhled; barvy jako proměnné v `:root` (stejné jako logo) |
 | `site/js/main.js` | animace, interakce a odeslání formuláře |
 | `site/images/og.jpg` | náhled odkazu (iMessage, WhatsApp, Messenger): screenshot úvodu 1200×630; v `<head>` jako `og:image` s absolutní adresou na github.io — při přesunu na vlastní doménu změnit |
