@@ -25,7 +25,7 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 
-html { -webkit-text-size-adjust: 100%; }
+html { -webkit-text-size-adjust: 100%; overflow-x: clip; }
 html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
 
@@ -117,7 +117,8 @@ button { font: inherit; color: inherit; cursor: pointer; }
 
 /* Hero */
 .hero {
-  position: relative; min-height: 100vh; min-height: 100svh;
+  /* clip sideways only: the logo's drawing area reaches past the right edge */
+  position: relative; min-height: 100vh; min-height: 100svh; overflow-x: clip;
   padding: 120px var(--pad) 40px;
   display: flex; flex-direction: column; justify-content: space-between;
 }
