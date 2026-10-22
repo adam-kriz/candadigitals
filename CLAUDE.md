@@ -91,7 +91,9 @@ Lokálně formulář ukáže „Sorry, that didn't send“ (Python server neumí
 
 ## Nasazení na candadigitals.com (plán z 21. 10. 2026)
 
-Firemní Gmail: **candadigitals@gmail.com** (založen 22. 10. 2026, Adam). Rozhodnuto: firemní Gmail → účet Cloudflare → doména **candadigitals.com** přes Cloudflare
+Firemní Gmail: **candadigitals@gmail.com** (založen 22. 10. 2026, Adam). Účet **Cloudflare** na tenhle
+Gmail (přihlášení přes Google, 2FA hlídá Google); doména **candadigitals.com koupená 22. 10. 2026** přes
+Cloudflare Registrar (auto-renew). Rozhodnuto: firemní Gmail → účet Cloudflare → doména **candadigitals.com** přes Cloudflare
 Registrar; hosting **Cloudflare Pages** (Adam povolil propojení s GitHubem); e-mail **zdarma**
 přes Cloudflare Email Routing (přeposílání do Gmailu); Resend = existující účet (přidat doménu);
 obsah webu zatím beze změny. Účty a platby dělá Adam sám, Claude dává návod.
