@@ -15,5 +15,5 @@ MAIL_FROM = "C&A Digitals website <website@candadigitals.com>"
 LIVE_TO = "candadigitals@gmail.com"
 # Where form messages go while FORMS_LIVE is "false".
 TEST_TO = "candadigitals@gmail.com"
-# "false" until the form has been tested end to end: every message goes to TEST_TO.
-FORMS_LIVE = "false"
+# "true" since 22 Oct 2026 (tested end to end): messages go to LIVE_TO. "false" sends them to TEST_TO.
+FORMS_LIVE = "true"

@@ -117,8 +117,10 @@ neřešíme — kdyby se zavedl, vrátit adresu na webu (index, privacy, llms.tx
 2. Turnstile widget „C&A Digitals“ (hostnames candadigitals.com + candadigitals.pages.dev, Managed) —
    site key `0x4AAAAAAFgp_X2hEJ11RfCa` je v `site/index.html` (22. 10. 2026); secret je v Pages jako
    `TURNSTILE_SECRET_KEY` (Adam, 22. 10. 2026; funkce ho vidí). Lokálně (localhost) widget hlásí chybu — to je v pořádku
-3. Resend (existující účet): přidat a ověřit doménu candadigitals.com (DNS), API klíč → Pages secret
-4. Secrets `RESEND_API_KEY`, `TURNSTILE_SECRET_KEY` v Pages (typ **Secret**, prostředí **Production**;
+3. ~~Resend~~ doména candadigitals.com ověřená (DKIM `resend._domainkey`, `send` MX/SPF), klíč
+   `RESEND_API_KEY` v Pages — hotovo 22. 10. 2026
+4. ~~Test formuláře~~ prošel 22. 10. 2026 (Adam, zpráva dorazila do Gmailu) → `FORMS_LIVE = "true"`.
+   Secrets `RESEND_API_KEY`, `TURNSTILE_SECRET_KEY` v Pages (typ **Secret**, prostředí **Production**;
    textové proměnné z dashboardu Pages ignoruje, protože existuje `wrangler.toml` → `TEST_TO` je v něm) → test formuláře →
    `FORMS_LIVE = "true"`
 5. Doplnit `[Chris's full name]` a `[Postal address]` v privacy.html + jméno v JSON-LD
