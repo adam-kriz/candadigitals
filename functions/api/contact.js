@@ -4,9 +4,9 @@
 // Safety: until FORMS_LIVE is "true" (wrangler.toml), every message goes to
 // TEST_TO and never to the live inbox.
 //
-// Settings: wrangler.toml [vars] SITE_NAME, MAIL_FROM, LIVE_TO, FORMS_LIVE.
+// Settings: wrangler.toml [vars] SITE_NAME, MAIL_FROM, LIVE_TO, TEST_TO, FORMS_LIVE.
 // Secrets (Cloudflare dashboard, never in the repo): RESEND_API_KEY,
-// TURNSTILE_SECRET_KEY, TEST_TO.
+// TURNSTILE_SECRET_KEY.
 
 const FIELDS = [
   ["needs", "Needs"],

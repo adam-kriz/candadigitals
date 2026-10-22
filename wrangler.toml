@@ -1,7 +1,9 @@
 # Cloudflare Pages settings for candadigitals.
 # Plain variables live here (this file wins over the dashboard).
-# Secrets are NOT here; set them in the dashboard (Settings > Variables and Secrets):
-#   RESEND_API_KEY, TURNSTILE_SECRET_KEY, TEST_TO
+# Secrets are NOT here; set them in the dashboard (Settings > Variables and Secrets,
+# type "Secret", environment Production): RESEND_API_KEY, TURNSTILE_SECRET_KEY.
+# Because this file exists, plain-text variables typed in the dashboard are ignored:
+# put those here under [vars].
 name = "candadigitals"
 # Only the site/ folder is published; CLAUDE.md, functions/ and this file stay private.
 pages_build_output_dir = "site"
@@ -11,5 +13,7 @@ compatibility_date = "2026-10-01"
 SITE_NAME = "C&A Digitals website"
 MAIL_FROM = "C&A Digitals website <website@candadigitals.com>"
 LIVE_TO = "candadigitals@gmail.com"
+# Where form messages go while FORMS_LIVE is "false".
+TEST_TO = "candadigitals@gmail.com"
 # "false" until the form has been tested end to end: every message goes to TEST_TO.
 FORMS_LIVE = "false"

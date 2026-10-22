@@ -118,7 +118,8 @@ neřešíme — kdyby se zavedl, vrátit adresu na webu (index, privacy, llms.tx
    site key `0x4AAAAAAFgp_X2hEJ11RfCa` je v `site/index.html` (22. 10. 2026); secret → Pages secret
    `TURNSTILE_SECRET_KEY` (vkládá Adam). Lokálně (localhost) widget hlásí chybu — to je v pořádku
 3. Resend (existující účet): přidat a ověřit doménu candadigitals.com (DNS), API klíč → Pages secret
-4. Secrets `RESEND_API_KEY`, `TURNSTILE_SECRET_KEY`, `TEST_TO` v Pages → test formuláře →
+4. Secrets `RESEND_API_KEY`, `TURNSTILE_SECRET_KEY` v Pages (typ **Secret**, prostředí **Production**;
+   textové proměnné z dashboardu Pages ignoruje, protože existuje `wrangler.toml` → `TEST_TO` je v něm) → test formuláře →
    `FORMS_LIVE = "true"`
 5. Doplnit `[Chris's full name]` a `[Postal address]` v privacy.html + jméno v JSON-LD
 6. Ostré spuštění: pryč `noindex`, `og:url`/`og:image` na candadigitals.com, canonical privacy
