@@ -144,17 +144,12 @@ button { font: inherit; color: inherit; cursor: pointer; }
   background: radial-gradient(closest-side, rgba(91, 135, 255, 0.16), rgba(91, 135, 255, 0) 70%);
 }
 .lh > * { position: relative; z-index: 1; }
-.lh-badge {
-  display: inline-flex; align-items: center; gap: 10px; margin: 0 0 26px; padding: 7px 14px 7px 10px;
-  border: 1px solid var(--line); border-radius: 999px; color: var(--muted); font-size: 14px;
-}
-.lh-badge i { width: 8px; height: 8px; border-radius: 50%; background: #5DCAA5; box-shadow: 0 0 0 4px rgba(93, 202, 165, 0.18); }
 .lh-title { margin: 0; font-weight: 700; font-size: clamp(42px, 5.1vw, 90px); line-height: 1.02; letter-spacing: -0.04em; }
 .lh-title .accent { display: block; }
-.lh-lead { margin: 24px 0 0; max-width: 29em; color: var(--muted); font-size: clamp(18px, 1.4vw, 21px); }
-.lh-ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+.lh-lead { margin: 30px 0 0; max-width: 29em; color: var(--muted); font-size: clamp(18px, 1.4vw, 21px); }
+.lh-ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px; }
 .lh-ctas .btn { min-height: 58px; min-width: 0; padding: 0 30px; font-size: 17px; }
-.lh-trust { list-style: none; display: flex; flex-wrap: wrap; gap: 10px 26px; margin: 30px 0 0; padding: 0; font-size: 15px; color: var(--muted); }
+.lh-trust { list-style: none; display: flex; flex-wrap: wrap; gap: 10px 26px; margin: 24px 0 0; padding: 0; font-size: 15px; color: var(--muted); }
 .lh-trust li { display: inline-flex; align-items: center; gap: 8px; }
 .lh-trust svg { width: 18px; height: 18px; flex: none; fill: none; stroke: #5DCAA5; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
 
@@ -185,9 +180,9 @@ button { font: inherit; color: inherit; cursor: pointer; }
 /* short laptop screens: keep the whole hero on the first screen */
 @media (max-height: 760px) and (min-width: 1001px) {
   .lh { padding-top: 92px; padding-bottom: 28px; }
-  .lh-badge { margin-bottom: 18px; }
-  .lh-ctas { margin-top: 24px; }
-  .lh-trust { margin-top: 22px; }
+  .lh-ctas { margin-top: 26px; }
+  .lh-lead { margin-top: 22px; }
+  .lh-trust { margin-top: 18px; }
 }
 
 /* Proof strip right under the hero */

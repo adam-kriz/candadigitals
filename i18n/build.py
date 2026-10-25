@@ -64,11 +64,7 @@ INDEX = [
     ('<small>05</small>How we work</a>', '<small>05</small>Cómo trabajamos</a>', '<small>05</small>Jak pracujeme</a>'),
     ('<small>06</small>Contact</a>', '<small>06</small>Contacto</a>', '<small>06</small>Kontakt</a>'),
 
-    # hero
     # hero (the logo's three layers)
-    ('<i aria-hidden="true"></i>Web studio in Florida and Prague</p>',
-     '<i aria-hidden="true"></i>Estudio web en Florida y Praga</p>',
-     '<i aria-hidden="true"></i>Webové studio na Floridě a v Praze</p>'),
     ('<h1 class="lh-title">We build your website. <span class="accent">Then we take care of it.</span></h1>',
      '<h1 class="lh-title">Creamos su sitio web. <span class="accent">Y luego lo cuidamos.</span></h1>',
      '<h1 class="lh-title">Postavíme vám web. <span class="accent">A pak se o něj postaráme.</span></h1>'),
