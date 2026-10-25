@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lab: physics hero | C&amp;A Digitals</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#262624">
+<link rel="icon" href="../brand/icon-dark.svg" type="image/svg+xml">
+<link rel="preload" href="../fonts/hanken-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../style.css?v=26">
+<style>
+/* ===== Prototype: physics hero (lab only) ===== */
+.ph { position: relative; height: 100vh; height: 100svh; min-height: 620px; overflow: hidden; touch-action: pan-y; }
+.ph-copy { position: relative; z-index: 2; padding: 116px var(--pad) 0; pointer-events: none; }
+.ph-copy a, .ph-copy button { pointer-events: auto; }
+.ph-title { margin: 0; font-weight: 800; text-transform: uppercase; font-size: clamp(46px, 8.6vw, 156px); line-height: 0.88; letter-spacing: -0.055em; max-width: 12ch; }
+.ph-row { display: flex; flex-wrap: wrap; align-items: center; gap: 20px 32px; margin-top: 28px; }
+.ph-lead { margin: 0; max-width: 30em; font-size: clamp(17px, 1.4vw, 20px); color: var(--muted); }
+.ph-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+.ph-ctas .btn { min-height: 56px; min-width: 0; padding: 0 28px; font-size: 17px; }
+.ph-hint { position: absolute; z-index: 2; right: var(--pad); top: 122px; margin: 0; color: var(--muted); font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; pointer-events: none; transition: opacity 0.6s; }
+.ph.touched .ph-hint { opacity: 0; }
+
+/* the falling things */
+.ph-world { position: absolute; inset: 0; z-index: 1; }
+.tile {
+  position: absolute; left: 0; top: 0; will-change: transform; user-select: none; -webkit-user-select: none;
+  display: inline-flex; align-items: center; gap: 0.35em; white-space: nowrap;
+  padding: 0.42em 0.85em; border-radius: 999px; font-weight: 700; letter-spacing: -0.03em;
+  font-size: clamp(20px, 2.6vw, 44px); line-height: 1; cursor: grab;
+}
+.ph.grabbing, .ph.grabbing .tile { cursor: grabbing; }
+.tile.solid { background: var(--accent); color: var(--accent-ink); }
+.tile.cream { background: var(--ink); color: var(--bg); }
+.tile.line { border: 2px solid rgba(245, 244, 238, 0.55); color: var(--ink); }
+.tile .stars { color: #E9A23B; font-size: 0.7em; letter-spacing: 0; }
+.tile.diamond { padding: 0; border-radius: 0; background: none; }
+.tile.diamond svg { display: block; width: clamp(110px, 11vw, 190px); height: auto; }
+
+@media (max-width: 700px) {
+  .ph-copy { padding-top: 96px; }
+  .ph-hint { display: none; }
+  .tile { font-size: 19px; }
+  .tile.diamond svg { width: 92px; }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <a class="brand" href="../" aria-label="C&amp;A Digitals, home">
+    <svg class="brand-mark" viewBox="0 0 96 96" aria-hidden="true"><polygon class="accent-fill" points="48,12 84,30 48,48 12,30" stroke-width="4" stroke-linejoin="round"/><path d="M12 48 L48 66 L84 48 M12 64 L48 82 L84 64" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span>C&amp;A Digitals</span>
+  </a>
+</header>
+
+<main id="main">
+  <section class="ph" id="ph">
+    <div class="ph-copy">
+      <h1 class="ph-title">Websites that bring you <span class="accent">customers.</span></h1>
+      <div class="ph-row">
+        <p class="ph-lead">A two-person web studio for small businesses. We design, build and look after your website, and help you get found, reviewed and booked.</p>
+        <div class="ph-ctas">
+          <a class="btn" href="../#contact"><span>Book a free call</span></a>
+          <a class="btn btn-ghost" href="../#work"><span>See our work</span></a>
+        </div>
+      </div>
+    </div>
+    <p class="ph-hint">Grab and throw ↓</p>
+
+    <div class="ph-world" aria-hidden="true">
+      <span class="tile solid">Websites</span>
+      <span class="tile cream">Google profile</span>
+      <span class="tile line">Reviews <span class="stars">★★★★★</span></span>
+      <span class="tile solid">Online bookings</span>
+      <span class="tile line">Payments</span>
+      <span class="tile cream">Spanish</span>
+      <span class="tile line">Fast on phones</span>
+      <span class="tile solid">Monthly care</span>
+      <span class="tile line">Accessibility</span>
+      <span class="tile cream">Logo</span>
+      <span class="tile diamond"><svg viewBox="12 12 72 36"><polygon points="48,12 84,30 48,48 12,30" fill="#5B87FF"/></svg></span>
+      <span class="tile diamond"><svg viewBox="12 12 72 36"><polygon points="48,12 84,30 48,48 12,30" fill="#5B87FF"/></svg></span>
+      <span class="tile diamond"><svg viewBox="12 12 72 36"><polygon points="48,12 84,30 48,48 12,30" fill="#888780"/></svg></span>
+    </div>
+  </section>
+
+  <section style="padding: 30vh var(--pad); text-align: center; color: var(--muted);">
+    <p>(The rest of the site would continue here.)</p>
+  </section>
+</main>
+
+<script src="../js/vendor/matter.min.js"></script>
+<script>
+(() => {
+  const hero = document.getElementById('ph');
+  const world = hero.querySelector('.ph-world');
+  const tiles = [...world.querySelectorAll('.tile')];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const { Engine, Bodies, Body, Composite, Mouse, MouseConstraint, Events, Sleeping } = Matter;
+
+  let W = hero.clientWidth, H = hero.clientHeight;
+  const sizes = tiles.map((t) => ({ w: t.offsetWidth, h: t.offsetHeight }));
+
+  // Static fallback (reduced motion): lay the tiles in rows along the bottom.
+  const restLayout = () => {
+    let x = 16, y = H - 16;
+    tiles.forEach((t, i) => {
+      const { w, h } = sizes[i];
+      if (x + w > W - 16) { x = 16; y -= h + 10; }
+      t.style.transform = `translate(${x}px, ${y - h}px)`;
+      x += w + 10;
+    });
+  };
+  if (reduce || !window.Matter) { restLayout(); return; }
+
+  const engine = Engine.create({ gravity: { y: 1.1 }, enableSleeping: true, positionIterations: 12, velocityIterations: 8 });
+  const T = 600;
+  const wallOpts = { isStatic: true, friction: 0.6, restitution: 0.15 };
+  let walls = [];
+  const buildWalls = () => {
+    if (walls.length) Composite.remove(engine.world, walls);
+    walls = [
+      Bodies.rectangle(W / 2, H + T / 2, W + T * 2, T, wallOpts),
+      Bodies.rectangle(-T / 2, H / 2 - H, T, H * 4, wallOpts),
+      Bodies.rectangle(W + T / 2, H / 2 - H, T, H * 4, wallOpts),
+    ];
+    Composite.add(engine.world, walls);
+  };
+  buildWalls();
+
+  const pairs = tiles.map((tile, i) => {
+    const { w, h } = sizes[i];
+    const x = w / 2 + Math.random() * Math.max(1, W - w);
+    const y = -h - 60 - Math.random() * 300;
+    const opts = { restitution: 0.25, friction: 0.5, frictionStatic: 0.8, frictionAir: 0.012, density: 0.0015, sleepThreshold: 50 };
+    const body = tile.classList.contains('diamond')
+      ? Bodies.fromVertices(x, y, [[{ x: 0, y: -h / 2 }, { x: w / 2, y: 0 }, { x: 0, y: h / 2 }, { x: -w / 2, y: 0 }]], opts)
+      : Bodies.rectangle(x, y, w, h, { ...opts, chamfer: { radius: h / 2 } });
+    Body.setAngle(body, (Math.random() - 0.5) * 1.2);
+    Body.setAngularVelocity(body, (Math.random() - 0.5) * 0.08);
+    return { tile, body, w, h };
+  });
+  // hidden until they drop in
+  pairs.forEach(({ tile }) => { tile.style.transform = 'translate(-9999px, 0)'; });
+
+  // Drop them one after another, so it reads like a little cascade.
+  pairs.forEach((p, i) => setTimeout(() => Composite.add(engine.world, p.body), 300 + i * 140));
+
+  // Grab and throw with the mouse; the wheel stays with the page.
+  if (fine) {
+    const mouse = Mouse.create(hero);
+    ['mousewheel', 'DOMMouseScroll', 'wheel'].forEach((ev) => hero.removeEventListener(ev, mouse.mousewheel));
+    hero.removeEventListener('mousemove', mouse.mousemove);
+    hero.removeEventListener('mouseup', mouse.mouseup);
+    window.addEventListener('mousemove', mouse.mousemove);
+    window.addEventListener('mouseup', mouse.mouseup);
+    const mc = MouseConstraint.create(engine, { mouse, constraint: { stiffness: 0.15, damping: 0.1, angularStiffness: 0, render: { visible: false } } });
+    Composite.add(engine.world, mc);
+    Events.on(mc, 'startdrag', () => { hero.classList.add('grabbing', 'touched'); });
+    Events.on(mc, 'enddrag', () => hero.classList.remove('grabbing'));
+
+    // The cursor also nudges tiles it brushes past.
+    let last = null;
+    hero.addEventListener('mousemove', (e) => {
+      const r = hero.getBoundingClientRect();
+      const p = { x: e.clientX - r.left, y: e.clientY - r.top };
+      if (last && !mc.body) {
+        const vx = p.x - last.x, vy = p.y - last.y;
+        pairs.forEach(({ body }) => {
+          if (Matter.Bounds.contains(body.bounds, p) && Matter.Vertices.contains(body.vertices, p)) {
+            Sleeping.set(body, false);
+            Body.setVelocity(body, { x: body.velocity.x + vx * 0.25, y: body.velocity.y + Math.min(vy * 0.25, 0) - 2 });
+            hero.classList.add('touched');
+          }
+        });
+      }
+      last = p;
+    });
+  } else {
+    // Touch: tap a tile to make it jump.
+    hero.addEventListener('click', (e) => {
+      const r = hero.getBoundingClientRect();
+      const p = { x: e.clientX - r.left, y: e.clientY - r.top };
+      pairs.forEach(({ body }) => {
+        if (Matter.Vertices.contains(body.vertices, p)) {
+          Sleeping.set(body, false);
+          Body.setVelocity(body, { x: (Math.random() - 0.5) * 8, y: -14 });
+          Body.setAngularVelocity(body, (Math.random() - 0.5) * 0.3);
+        }
+      });
+    });
+  }
+
+  const MAX = 30;
+  Events.on(engine, 'beforeUpdate', () => {
+    pairs.forEach(({ body }) => {
+      if (body.speed > MAX) Body.setVelocity(body, { x: body.velocity.x * MAX / body.speed, y: body.velocity.y * MAX / body.speed });
+    });
+  });
+  Events.on(engine, 'afterUpdate', () => {
+    pairs.forEach(({ body, w, h }) => {
+      // anything thrown far out comes back in from the top
+      if (body.position.y > H + h || body.position.y < -H * 1.5 || body.position.x < -w || body.position.x > W + w) {
+        Body.setPosition(body, { x: Math.min(Math.max(body.position.x, w / 2), W - w / 2), y: -h });
+        Body.setVelocity(body, { x: 0, y: 0 });
+      }
+    });
+  });
+
+  const render = () => pairs.forEach(({ tile, body, w, h }) => {
+    if (!body.parts || !engine.world.bodies.includes(body)) return;
+    tile.style.transform = `translate3d(${body.position.x - w / 2}px, ${body.position.y - h / 2}px, 0) rotate(${body.angle}rad)`;
+  });
+
+  const STEP = 1000 / 120;
+  let running = false, lastT = 0, acc = 0;
+  const frame = (t) => {
+    if (!running) return;
+    acc += lastT ? Math.min(t - lastT, 100) : STEP;
+    lastT = t;
+    while (acc >= STEP) { Engine.update(engine, STEP); acc -= STEP; }
+    render();
+    requestAnimationFrame(frame);
+  };
+  new IntersectionObserver(([e]) => {
+    if (e.isIntersecting && !running) { running = true; lastT = 0; acc = 0; requestAnimationFrame(frame); }
+    else if (!e.isIntersecting) running = false;
+  }).observe(hero);
+
+  new ResizeObserver(() => {
+    if (hero.clientWidth === W && hero.clientHeight === H) return;
+    W = hero.clientWidth; H = hero.clientHeight;
+    buildWalls();
+    pairs.forEach(({ body, w }) => { Sleeping.set(body, false); if (body.position.x > W - w / 2) Body.setPosition(body, { x: W - w / 2, y: body.position.y }); });
+  }).observe(hero);
+})();
+</script>
+</body>
+</html>
