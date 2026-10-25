@@ -38,9 +38,9 @@ INDEX = [
     ('<meta property="og:url" content="https://candadigitals.com/">',
      '<meta property="og:url" content="https://candadigitals.com/es/">',
      '<meta property="og:url" content="https://candadigitals.com/cs/">'),
-    ('content="C&amp;A Digitals: Websites that bring you customers."',
-     'content="C&amp;A Digitals: Sitios web que le traen clientes."',
-     'content="C&amp;A Digitals: Weby, které vám přivedou zákazníky."'),
+    ('content="C&amp;A Digitals: We build your website. Then we take care of it."',
+     'content="C&amp;A Digitals: Creamos su sitio web. Y luego lo cuidamos."',
+     'content="C&amp;A Digitals: Postavíme vám web. A pak se o něj postaráme."'),
     ('<link rel="canonical" href="https://candadigitals.com/">',
      '<link rel="canonical" href="https://candadigitals.com/es/">',
      '<link rel="canonical" href="https://candadigitals.com/cs/">'),
@@ -65,34 +65,33 @@ INDEX = [
     ('<small>06</small>Contact</a>', '<small>06</small>Contacto</a>', '<small>06</small>Kontakt</a>'),
 
     # hero
-    ('''    <h1 class="hero-title" aria-label="Websites that bring you customers.">
-      <span class="line"><span class="word">Websites</span></span>
-      <span class="line"><span class="word">that</span> <span class="word">bring</span></span>
-      <span class="line"><span class="word">you</span> <span class="word accent">customers.</span></span>
-    </h1>''',
-     '''    <h1 class="hero-title" aria-label="Sitios web que le traen clientes.">
-      <span class="line"><span class="word">Sitios</span> <span class="word">web</span></span>
-      <span class="line"><span class="word">que</span> <span class="word">le</span> <span class="word">traen</span></span>
-      <span class="line"><span class="word accent">clientes.</span></span>
-    </h1>''',
-     '''    <h1 class="hero-title" aria-label="Weby, které vám přivedou zákazníky.">
-      <span class="line"><span class="word">Weby,</span> <span class="word">které</span></span>
-      <span class="line"><span class="word">vám</span> <span class="word">přivedou</span></span>
-      <span class="line"><span class="word accent">zákazníky.</span></span>
-    </h1>'''),
-    ('A two-person web studio for small businesses. We design, build and look after your website, and help you get found on Google, collect reviews and take bookings.',
-     'Un estudio web de dos personas para pequeñas empresas. Diseñamos, creamos y cuidamos su sitio web, y le ayudamos a aparecer en Google, conseguir reseñas y recibir reservas.',
-     'Webové studio dvou lidí pro malé firmy. Navrhneme, postavíme a spravujeme váš web a pomůžeme vám být vidět na Googlu, sbírat recenze a přijímat rezervace.'),
+    # hero (the logo's three layers)
+    ('<i aria-hidden="true"></i>Web studio in Florida and Prague</p>',
+     '<i aria-hidden="true"></i>Estudio web en Florida y Praga</p>',
+     '<i aria-hidden="true"></i>Webové studio na Floridě a v Praze</p>'),
+    ('<h1 class="lh-title">We build your website. <span class="accent">Then we take care of it.</span></h1>',
+     '<h1 class="lh-title">Creamos su sitio web. <span class="accent">Y luego lo cuidamos.</span></h1>',
+     '<h1 class="lh-title">Postavíme vám web. <span class="accent">A pak se o něj postaráme.</span></h1>'),
+    ('Design, Google, reviews, bookings and monthly care, from one small team that answers when you call.',
+     'Diseño, Google, reseñas, reservas y mantenimiento mensual, de un equipo pequeño que contesta cuando usted llama.',
+     'Design, Google, recenze, rezervace i měsíční péče od malého týmu, který zvedne telefon, když zavoláte.'),
+    ('</svg>Custom-built, no templates</li>', '</svg>Hecho a medida, sin plantillas</li>', '</svg>Na míru, žádné šablony</li>'),
+    ('</svg>You own everything</li>', '</svg>Todo es suyo</li>', '</svg>Všechno patří vám</li>'),
+    ('</svg>Reply within one business day</li>', '</svg>Respuesta en un día hábil</li>', '</svg>Odpověď do jednoho pracovního dne</li>'),
+    ('Three layers: Found on Google on top, your website in the middle, care and updates underneath.',
+     'Tres capas: arriba, aparecer en Google; en el medio, su sitio web; abajo, el mantenimiento.',
+     'Tři vrstvy: nahoře být vidět na Googlu, uprostřed váš web, dole péče a aktualizace.'),
+    ('class="lbl-t">Found on Google</text>', 'class="lbl-t">Aparecer en Google</text>', 'class="lbl-t">Vidět na Googlu</text>'),
+    ('class="lbl-s">Profile, reviews and bookings</text>', 'class="lbl-s">Perfil, reseñas y reservas</text>', 'class="lbl-s">Profil, recenze a rezervace</text>'),
+    ('class="lbl-t">Your website</text>', 'class="lbl-t">Su sitio web</text>', 'class="lbl-t">Váš web</text>'),
+    ('class="lbl-s">Custom design, fast on phones</text>', 'class="lbl-s">Rápido en cualquier celular</text>', 'class="lbl-s">Na míru, rychlý v telefonu</text>'),
+    ('class="lbl-t">Care and updates</text>', 'class="lbl-t">Mantenimiento</text>', 'class="lbl-t">Péče a aktualizace</text>'),
+    ('class="lbl-s">Backups, security, small edits</text>', 'class="lbl-s">Copias, seguridad y cambios</text>', 'class="lbl-s">Zálohy, bezpečí, úpravy</text>'),
+    ('<strong>Found on Google</strong><em>Profile, reviews and bookings</em>', '<strong>Aparecer en Google</strong><em>Perfil, reseñas y reservas</em>', '<strong>Vidět na Googlu</strong><em>Profil, recenze a rezervace</em>'),
+    ('<strong>Your website</strong><em>Custom design, fast on phones</em>', '<strong>Su sitio web</strong><em>Rápido en cualquier celular</em>', '<strong>Váš web</strong><em>Na míru, rychlý v telefonu</em>'),
+    ('<strong>Care and updates</strong><em>Backups, security, small edits</em>', '<strong>Mantenimiento</strong><em>Copias, seguridad y cambios</em>', '<strong>Péče a aktualizace</strong><em>Zálohy, bezpečí, úpravy</em>'),
     ('<span>Book a free call</span>', '<span>Agende una llamada gratis</span>', '<span>Domluvit hovor zdarma</span>'),
     ('<span>See our work</span>', '<span>Ver nuestro trabajo</span>', '<span>Ukázky práce</span>'),
-    ('<dt>Our desk</dt>\n          <dd><span class="clock-place">Florida, US</span>',
-     '<dt>Nuestra oficina</dt>\n          <dd><span class="clock-place">Florida, EE. UU.</span>',
-     '<dt>Pracujeme z</dt>\n          <dd><span class="clock-place">Florida, USA</span>'),
-    ('<dt>Our desk</dt>\n          <dd><span class="clock-place">Prague, CZ</span>',
-     '<dt>Nuestra oficina</dt>\n          <dd><span class="clock-place">Praga, CZ</span>',
-     '<dt>Pracujeme z</dt>\n          <dd><span class="clock-place">Praha, CZ</span>'),
-    ('<dt>Say hello</dt>', '<dt>Escríbanos</dt>', '<dt>Napište nám</dt>'),
-    ('data-copy="candadigitals@gmail.com">Copy</button>', 'data-copy="candadigitals@gmail.com">Copiar</button>', 'data-copy="candadigitals@gmail.com">Kopírovat</button>'),
 
     # proof strip
     ('<p class="proof-label">Recently launched</p>', '<p class="proof-label">Lanzados recientemente</p>', '<p class="proof-label">Nedávno spuštěné</p>'),

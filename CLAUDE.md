@@ -50,7 +50,7 @@ tmavá, obří nadpisy verzálkami, hodně animací. Statický web bez build ste
 | Soubor | Co to je |
 |---|---|
 | `site/` | **jen tahle složka jde na web** (Cloudflare Pages „build output“); `CLAUDE.md`, `functions/` a `wrangler.toml` zůstávají mimo |
-| `site/index.html` | celá stránka: Hero → pás služeb → Intro → Work → **About** (Chris a Adam bez fotek; od 25. 10. 2026 **jen křestní jména** i v JSON-LD a texty, že **všechno děláme oba společně** — žádné dělení rolí, oba „Co-founder“) → Services → Packages → How we work → Contact „I need…“ → patička |
+| `site/index.html` | celá stránka: **Hero „tři vrstvy“** (od 25. 10. 2026: vlevo badge, nadpis „We build your website. Then we take care of it.“, tlačítka, 3 odznaky důvěry; vpravo SVG s rozloženými vrstvami loga v izometrii — modrá Found on Google, krémová Your website, tmavá Care and updates, ikony na horních plochách přes matici `matrix(1.5,-0.75,1.5,0.75,-150,0)`, popisky vpravo, na mobilu jako seznam; vrstvy při načtení spadnou, jemně se vznáší, při scrollu se rozestoupí) → pás „Recently launched“ → pás služeb → Intro → Work → **About** (Chris a Adam bez fotek; od 25. 10. 2026 **jen křestní jména** i v JSON-LD a texty, že **všechno děláme oba společně** — žádné dělení rolí, oba „Co-founder“) → Services → Packages → How we work → Contact „I need…“ → patička |
 | `site/style.css` | vzhled; barvy jako proměnné v `:root` (stejné jako logo) |
 | `site/js/main.js` | animace, interakce a odeslání formuláře |
 | `site/images/og.jpg` | náhled odkazu (iMessage, WhatsApp, Messenger): screenshot úvodu 1200×630; v `<head>` jako `og:image` s absolutní adresou na github.io — při přesunu na vlastní doménu změnit |
@@ -67,8 +67,7 @@ tmavá, obří nadpisy verzálkami, hodně animací. Statický web bez build ste
 Knihovny (od 21. 10. 2026 v `site/js/vendor/`, ne z CDN): **GSAP 3.12.5 + ScrollTrigger** (animace při scrollu), **Lenis 1.1.13**
 (plynulý scroll), **Matter.js 0.19.0** (padající štítky v kontaktu). Písmo Hanken Grotesk ze `site/fonts/`.
 
-Animace: nadpis naskakuje po slovech; tři vrstvy loga v úvodu se při scrollu rozjedou
-(Adamovi se to líbí, nechat) a natáčejí se za myší; intro text se při scrollu „rozsvěcuje“ po slovech; u projektů jede za
+Animace: úvod viz výše (vrstvy loga při scrollu rozestoupí — Adamovi se to líbí, nechat); intro text se při scrollu „rozsvěcuje“ po slovech; u projektů jede za
 myší náhled; služby = rozbalovací seznam (otevřená jen jedna); čára „How we work“ se
 kreslí při scrollu; štítky „I need…“ padají a jdou přetahovat (jen počítač s myší, na
 mobilu obyčejná tlačítka; vlastní smyčka s pevným krokem 1/120 s, spaní těl proti chvění,

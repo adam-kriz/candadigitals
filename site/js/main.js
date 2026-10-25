@@ -7,8 +7,6 @@
   // Messages the script writes into the page, per page language (<html lang>).
   const MESSAGES = {
     en: {
-      copied: 'Copied to clipboard.',
-      copyFailed: 'Copy failed, select the address instead.',
       missing: 'Please add your name and a valid email.',
       sending: 'Sending…',
       sent: 'Thanks! We got your message and will get back to you within one business day.',
@@ -16,8 +14,6 @@
       failed: 'Sorry, that didn\'t send. Please email us at candadigitals@gmail.com.',
     },
     es: {
-      copied: 'Copiado al portapapeles.',
-      copyFailed: 'No se pudo copiar. Seleccione la dirección.',
       missing: 'Por favor, escriba su nombre y un correo válido.',
       sending: 'Enviando…',
       sent: '¡Gracias! Recibimos su mensaje y le responderemos en un día hábil.',
@@ -25,8 +21,6 @@
       failed: 'Lo sentimos, no se pudo enviar. Escríbanos a candadigitals@gmail.com.',
     },
     cs: {
-      copied: 'Zkopírováno.',
-      copyFailed: 'Kopírování se nepovedlo, označte adresu ručně.',
       missing: 'Vyplňte prosím jméno a platný e-mail.',
       sending: 'Odesílám…',
       sent: 'Díky! Zprávu máme a ozveme se do jednoho pracovního dne.',
@@ -110,29 +104,14 @@
   });
   document.querySelector('.to-top').addEventListener('click', () => scrollToTarget(0));
 
-  /* Clocks: Florida and Prague */
-  const clocks = document.querySelectorAll('.clock');
-  const tick = () => clocks.forEach((c) => {
-    c.querySelector('.clock-time').textContent = new Intl.DateTimeFormat(root.lang === 'en' ? 'en-US' : root.lang, {
-      hour: 'numeric', minute: '2-digit', timeZone: c.dataset.tz
-    }).format(new Date());
-  });
-  tick();
-  setInterval(tick, 15000);
-
-  /* Copy email */
-  document.querySelectorAll('.copy').forEach((btn) => {
-    btn.addEventListener('click', async () => {
-      const done = btn.parentElement.querySelector('.copy-done');
-      try {
-        await navigator.clipboard.writeText(btn.dataset.copy);
-        done.textContent = T.copied;
-      } catch (_) {
-        done.textContent = T.copyFailed;
-      }
-      setTimeout(() => { done.textContent = ''; }, 2500);
-    });
-  });
+  /* Hero art: on phones, crop the drawing to the layers (their labels move to a list) */
+  const heroArt = document.querySelector('.lh-art svg');
+  if (heroArt) {
+    const fullBox = heroArt.getAttribute('viewBox');
+    const fitArt = () => heroArt.setAttribute('viewBox', window.innerWidth <= 640 ? '-175 -100 350 600' : fullBox);
+    fitArt();
+    window.addEventListener('resize', fitArt);
+  }
 
   /* Services: one open at a time */
   const accItems = document.querySelectorAll('.acc-item');
@@ -202,31 +181,18 @@
 
   /* Entrance and scroll animations */
   if (hasGsap && !reduceMotion) {
-    const heroWords = document.querySelectorAll('.hero-title .word');
+    // Entrance: the copy rises in, the layers drop in one by one, then their labels.
     gsap.timeline({ defaults: { ease: 'expo.out' } })
-      .from(heroWords, { yPercent: 110, duration: 1.3, stagger: 0.08 })
-      .from('.hero-layers .layer', { y: -60, opacity: 0, duration: 1.2, stagger: 0.12 }, 0.3)
-      .to('.hero .fade', { opacity: 1, y: 0, duration: 1, stagger: 0.1 }, 0.6);
+      .fromTo('.lh-copy > *', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 1.1, stagger: 0.08 })
+      .fromTo(['.s-bot .intro', '.s-mid .intro', '.s-top .intro'], { y: -140, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1.3, stagger: 0.16, ease: 'back.out(1.2)' }, 0.15)
+      .fromTo('.lh .labels .lbl, .lh-legend li', { x: -14, opacity: 0 }, { x: 0, opacity: 1, duration: 0.9, stagger: 0.1 }, 0.9);
 
-    // The three layers of the logo drift apart as you scroll away from the hero.
-    // This moves the shapes inside each layer, while the entrance above moves the
-    // layer groups, so scrolling during the entrance can't leave the logo scattered.
-    gsap.timeline({ scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } })
-      .fromTo('.layer-1 > *', { y: 0 }, { y: -70, immediateRender: false }, 0)
-      .fromTo('.layer-3 > *', { y: 0 }, { y: 70, immediateRender: false }, 0)
-      .to('.hero-layers', { rotate: -8 }, 0);
-
-    // Small tilt toward the mouse.
-    if (canHover) {
-      const layers = document.querySelector('.hero-layers');
-      const rx = gsap.quickTo(layers, 'rotationY', { duration: 0.8, ease: 'power3' });
-      const ry = gsap.quickTo(layers, 'rotationX', { duration: 0.8, ease: 'power3' });
-      gsap.set(layers, { transformPerspective: 800 });
-      window.addEventListener('mousemove', (e) => {
-        rx((e.clientX / window.innerWidth - 0.5) * 30);
-        ry((e.clientY / window.innerHeight - 0.5) * -30);
-      });
-    }
+    // Scrolling away spreads the layers apart, labels included. This moves the inner
+    // "spread" groups, the entrance moves the outer "intro" groups, so they never fight.
+    gsap.timeline({ scrollTrigger: { trigger: '.lh', start: 'top top', end: 'bottom top', scrub: true } })
+      .fromTo('.s-top .spread, .l-top', { y: 0 }, { y: -70, immediateRender: false }, 0)
+      .fromTo('.s-bot .spread, .l-bot', { y: 0 }, { y: 70, immediateRender: false }, 0);
 
     document.querySelectorAll('.section-title, .contact-title').forEach((el) => {
       gsap.from(el, { yPercent: 40, opacity: 0, duration: 1.2, ease: 'expo.out', scrollTrigger: { trigger: el, start: 'top 88%' } });

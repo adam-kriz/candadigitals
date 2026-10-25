@@ -129,46 +129,66 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .menu a:hover { color: var(--accent-deep); }
 .menu-foot { margin: auto 0 0; font-size: 16px; }
 
-/* Hero */
-.hero {
-  /* clip sideways only: the logo's drawing area reaches past the right edge */
+/* Hero: the logo's three layers, exploded. Google on top, the website in the middle,
+   care underneath. Each slab is drawn in SVG (top + two side faces) and its icon is
+   mapped onto the top face with one isometric matrix: matrix(1.5,-0.75,1.5,0.75,-150,0). */
+.lh {
   position: relative; min-height: 100vh; min-height: 100svh; overflow-x: clip;
-  padding: 120px var(--pad) 40px;
-  display: flex; flex-direction: column; justify-content: space-between;
+  padding: 112px var(--pad) 48px;
+  display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(24px, 4vw, 72px); align-items: center;
 }
-.hero-title {
-  position: relative; z-index: 2;
-  margin: 0; font-weight: 800; text-transform: uppercase;
-  font-size: clamp(46px, 10.2vw, 190px); line-height: 0.88; letter-spacing: -0.055em;
+/* soft blue light behind the layers */
+.lh::before {
+  content: ""; position: absolute; z-index: 0; right: -10%; top: 50%; width: 70vw; height: 70vw; max-width: 1100px; max-height: 1100px;
+  transform: translateY(-50%); pointer-events: none;
+  background: radial-gradient(closest-side, rgba(91, 135, 255, 0.16), rgba(91, 135, 255, 0) 70%);
 }
-.hero-title .line { display: block; overflow: hidden; padding: 0.16em 0 0.04em; margin-top: -0.16em; } /* room for accents on capitals (É, Ř, Á) */
-.hero-title .word { display: inline-block; }
+.lh > * { position: relative; z-index: 1; }
+.lh-badge {
+  display: inline-flex; align-items: center; gap: 10px; margin: 0 0 26px; padding: 7px 14px 7px 10px;
+  border: 1px solid var(--line); border-radius: 999px; color: var(--muted); font-size: 14px;
+}
+.lh-badge i { width: 8px; height: 8px; border-radius: 50%; background: #5DCAA5; box-shadow: 0 0 0 4px rgba(93, 202, 165, 0.18); }
+.lh-title { margin: 0; font-weight: 700; font-size: clamp(42px, 5.1vw, 90px); line-height: 1.02; letter-spacing: -0.04em; }
+.lh-title .accent { display: block; }
+.lh-lead { margin: 24px 0 0; max-width: 29em; color: var(--muted); font-size: clamp(18px, 1.4vw, 21px); }
+.lh-ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+.lh-ctas .btn { min-height: 58px; min-width: 0; padding: 0 30px; font-size: 17px; }
+.lh-trust { list-style: none; display: flex; flex-wrap: wrap; gap: 10px 26px; margin: 30px 0 0; padding: 0; font-size: 15px; color: var(--muted); }
+.lh-trust li { display: inline-flex; align-items: center; gap: 8px; }
+.lh-trust svg { width: 18px; height: 18px; flex: none; fill: none; stroke: #5DCAA5; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
 
-.hero-layers {
-  position: absolute; z-index: 1; right: var(--pad); top: 110px;
-  width: min(22vw, 340px);
-  color: var(--ink); pointer-events: none;
-}
-/* The drawing area reaches well past the mark (viewBox -20 -80 136 256 around the
-   96x96 logo), so the layers can drift apart and tilt without being clipped. */
-.hero-layers { aspect-ratio: 1; will-change: transform; }
-/* The SVG gets its own compositing layer: Safari otherwise forgets to repaint the
-   spots the moving chevron tips just left, and leaves little dashes behind. */
-.hero-layers svg {
-  position: absolute; left: -20.833%; top: -83.333%;
-  width: 141.667%; height: 266.667%; max-width: none; overflow: visible;
+.lh-art { width: 100%; max-width: 720px; justify-self: end; }
+/* Own compositing layer, so Safari repaints the floating slabs cleanly. */
+.lh-art svg {
+  display: block; width: 100%; height: auto; max-height: calc(100svh - 150px); overflow: visible; font-family: var(--font);
   will-change: transform; transform: translateZ(0);
-  -webkit-backface-visibility: hidden; backface-visibility: hidden;
 }
+.lh-art .lbl-t { fill: var(--ink); font-size: 19px; font-weight: 700; letter-spacing: -0.01em; }
+.lh-art .lbl-s { fill: var(--muted); font-size: 14.5px; }
+.lh-art .lbl-n { fill: var(--accent); font-size: 12.5px; font-variant-numeric: tabular-nums; }
+.lh-art .lbl-line { stroke: rgba(245, 244, 238, 0.28); stroke-width: 1; stroke-dasharray: 3 4; }
+.lh-art .lbl-dot { fill: var(--accent); }
+.bob { animation: bob 6.5s ease-in-out infinite; }
+.s-mid .bob { animation-delay: -2.2s; }
+.s-bot .bob { animation-delay: -4.4s; }
+@keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
 
-.hero-bottom {
-  position: relative; z-index: 2;
-  display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 40px;
-  align-items: end; margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--line);
+/* phones: the labels become a list under the drawing (inside the SVG they'd get too small) */
+.lh-legend { display: none; list-style: none; margin: 8px 0 0; padding: 0; }
+.lh-legend li { display: grid; grid-template-columns: 28px minmax(0, 1fr); padding: 12px 0; border-top: 1px solid var(--line); }
+.lh-legend span { color: var(--accent); font-size: 13px; padding-top: 3px; }
+.lh-legend p { margin: 0; }
+.lh-legend strong { display: block; font-size: 17px; }
+.lh-legend em { font-style: normal; color: var(--muted); font-size: 15px; }
+
+/* short laptop screens: keep the whole hero on the first screen */
+@media (max-height: 760px) and (min-width: 1001px) {
+  .lh { padding-top: 92px; padding-bottom: 28px; }
+  .lh-badge { margin-bottom: 18px; }
+  .lh-ctas { margin-top: 24px; }
+  .lh-trust { margin-top: 22px; }
 }
-.hero-lead { margin: 0; max-width: 34em; font-size: clamp(18px, 1.6vw, 22px); }
-.hero-ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
-.hero-ctas .btn { min-height: 56px; min-width: 0; padding: 0 28px; font-size: 17px; }
 
 /* Proof strip right under the hero */
 .proof {
@@ -182,16 +202,6 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .proof-list strong { font-weight: 600; }
 .proof-list span { color: var(--muted); margin-left: 6px; }
 .proof-list a:hover strong { color: var(--accent); }
-.hero-meta { margin: 0; display: grid; grid-template-columns: repeat(3, auto); gap: 28px; justify-content: end; font-size: 15px; }
-.hero-meta dt { color: var(--muted); text-transform: uppercase; font-size: 12px; letter-spacing: 0.08em; margin-bottom: 4px; }
-.hero-meta dd { margin: 0; }
-.clock-time { font-variant-numeric: tabular-nums; }
-.copy {
-  margin-left: 6px; padding: 2px 10px; border: 1px solid var(--line); border-radius: 999px;
-  background: none; font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em;
-}
-.copy:hover { border-color: var(--ink); }
-.copy-done { display: block; color: var(--muted); font-size: 12px; min-height: 1em; }
 
 /* Marquee */
 .marquee { overflow: hidden; border-block: 1px solid var(--line); padding: 18px 0; }
@@ -379,13 +389,13 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .to-top:hover { border-color: var(--ink); }
 
 /* Reveal helpers (only when JS runs; the content is visible without JS) */
-.js .fade { opacity: 0; transform: translateY(24px); }
+.js .lh-copy > *, .js .lh .slab .intro, .js .lh .labels .lbl, .js .lh-legend li { opacity: 0; }
 
 /* Responsive */
 @media (max-width: 1000px) {
-  .hero-bottom { grid-template-columns: 1fr; }
-  .hero-meta { justify-content: start; grid-template-columns: repeat(2, auto); }
-  .hero-layers { position: relative; right: auto; top: auto; align-self: flex-end; width: min(42vw, 260px); margin: 40px 0 0; }
+  .lh { grid-template-columns: 1fr; padding-top: 100px; }
+  .lh-art { justify-self: center; max-width: 560px; }
+  .lh::before { right: -40%; top: 70%; width: 140vw; height: 140vw; }
   .section-head { grid-template-columns: 1fr; }
   .section-note { justify-self: start; }
   .pkg-grid { grid-template-columns: 1fr; }
@@ -400,9 +410,10 @@ button { font: inherit; color: inherit; cursor: pointer; }
 }
 @media (max-width: 640px) {
   body { font-size: 17px; }
-  .hero { padding-top: 104px; }
-  .hero-meta { grid-template-columns: 1fr 1fr; gap: 20px; }
-  .hero-meta > div:last-child { grid-column: 1 / -1; }
+  .lh-art .labels { display: none; }
+  .lh-art svg { max-height: none; }
+  .lh-legend { display: block; }
+  .lh-trust { font-size: 14px; }
   .work-row { grid-template-columns: minmax(0, 1fr) auto; row-gap: 6px; padding: 22px 0; }
   .work-tag { grid-column: 1; grid-row: 2; font-size: 13px; }
   .work-year { grid-row: 1; grid-column: 2; }
@@ -424,7 +435,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
-  .js .fade { opacity: 1; transform: none; }
+  .js .lh-copy > *, .js .lh .slab .intro, .js .lh .labels .lbl, .js .lh-legend li { opacity: 1; }
   .intro-text .w { opacity: 1; }
   .marquee-track { animation: none; }
 }
