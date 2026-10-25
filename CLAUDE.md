@@ -50,11 +50,11 @@ tmavá, obří nadpisy verzálkami, hodně animací. Statický web bez build ste
 | Soubor | Co to je |
 |---|---|
 | `site/` | **jen tahle složka jde na web** (Cloudflare Pages „build output“); `CLAUDE.md`, `functions/` a `wrangler.toml` zůstávají mimo |
-| `site/index.html` | celá stránka: Hero → pás služeb → Intro → Work → **About** (od 22. 10. 2026: Chris a Adam bez fotek, texty od Clauda — Adam je nechal na něm; role „Florida side“ / „build side“) → Services → Packages → How we work → Contact „I need…“ → patička |
+| `site/index.html` | celá stránka: Hero → pás služeb → Intro → Work → **About** (Chris a Adam bez fotek; od 25. 10. 2026 **jen křestní jména** i v JSON-LD a texty, že **všechno děláme oba společně** — žádné dělení rolí, oba „Co-founder“) → Services → Packages → How we work → Contact „I need…“ → patička |
 | `site/style.css` | vzhled; barvy jako proměnné v `:root` (stejné jako logo) |
 | `site/js/main.js` | animace, interakce a odeslání formuláře |
 | `site/images/og.jpg` | náhled odkazu (iMessage, WhatsApp, Messenger): screenshot úvodu 1200×630; v `<head>` jako `og:image` s absolutní adresou na github.io — při přesunu na vlastní doménu změnit |
-| `site/images/work/` | screenshoty projektů v sekci Work: Aveo Engineering, Key Sailing Sarasota |
+| `site/images/work/` | screenshot projektu v sekci Work: Key Sailing Sarasota |
 
 | `site/privacy.html` | Privacy Policy (GDPR + US); **obsahuje zástupné údaje** `[Chris's full name]`, `[Postal address]` (červeně) — doplnit před spuštěním |
 | `site/404.html` | stránka „Lost a layer.“ (absolutní cesty `/…`) |
@@ -79,8 +79,7 @@ velikosti; žádné poskakování — Adam nechce, aby štítky vylétávaly); m
 animací a plynulého scrollu (ověřeno).
 
 Zatím **náhled**: `noindex`, e-mail `hello@candadigitals.com` je **jen zástupný**
-(doména není koupená), formulář nic neposílá (jen hláška „preview“). Projekty v sekci Work (Adam 20. 10. 2026): 1. **Aveo Engineering**
-(aveoengineering.com, dělal Chris), 2. **Key Sailing Sarasota** (siestakeysailing.com). Texty jsou Claudův návrh
+(doména není koupená), formulář nic neposílá (jen hláška „preview“). Projekty v sekci Work: od 25. 10. 2026 **jen Key Sailing Sarasota** (Aveo Adam odebral). Texty jsou Claudův návrh
 — Adam a Chris je upraví. „Our desk“ = Florida a Praha (Adam 20. 10. 2026).
 
 Rozmazání pod hlavičkou po scrollu = **jen 2 vrstvy** `backdrop-filter` (silná nahoře, slabá níž) +
@@ -166,7 +165,7 @@ Další verze: formulář přes Cloudflare Pages Function + Resend (jako Key Sai
   vrstva loga na webu (soubory v `brand/` zůstaly šedé), poslední slovo nadpisu, tlačítka, čísla,
   vybrané štítky, čára „How we work“.
 - **Úvod:** cílí na kohokoli (Adam: „prakticky na kohokoliv“), tlačítka **Book a free call** (→ #contact,
-  Calendly zatím není) a **See our work**, pod úvodem pás „Recently launched“ (Key Sailing, Aveo).
+  Calendly zatím není) a **See our work**, pod úvodem pás „Recently launched“ (Key Sailing).
 - **Překlady:** angličtina je zdroj (`site/index.html`, `site/privacy.html`). Španělština (`site/es/`,
   vykání „usted“) a čeština (`site/cs/`, vykání) se **generují** skriptem `i18n/build.py`
   (`python3 candadigitals/i18n/build.py`) — **ručně je neupravovat**. Po změně anglického textu
