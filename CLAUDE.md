@@ -136,7 +136,13 @@ neřešíme — kdyby se zavedl, vrátit adresu na webu (index, privacy, llms.tx
    Turnstile pod 360 px šířky v režimu `compact`.
    **SPUŠTĚNO 22. 10. 2026** — web na https://candadigitals.com je otevřený vyhledávačům (pages.dev
    dál `noindex`), GitHub Pages vypnuté (github.io/candadigitals vrací 404)
-7. Po spuštění: Search Console + Bing (sitemap), Cloudflare Web Analytics
+7. Po spuštění: Search Console + Bing (sitemap), Cloudflare Web Analytics.
+   **Stav 25. 10. 2026:** web ještě není v Googlu (nikdo ho tam neohlásil); technicky je OK
+   (robots, sitemap, canonical, hreflang). Do JSON-LD přidáno `alternateName` („C and A Digitals“,
+   „CandA Digitals“), ať Google pozná název i bez „&“. Search Console zakládá Adam účtem
+   candadigitals@gmail.com: služba typu **Doména**, ověření TXT záznamem v Cloudflare DNS, odeslat
+   `sitemap.xml`, požádat o indexování `/`, `/es/`, `/cs/`. Pak Bing Webmaster Tools → import ze
+   Search Console.
 
 Zbývá **při spuštění**:
 - Turnstile widget pro candadigitals.com → nahradit testovací `data-sitekey` v `site/index.html`
