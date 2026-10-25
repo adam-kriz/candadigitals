@@ -13,6 +13,11 @@ změnit (Adam to ukazuje Chrisovi). Web se zatím nestaví; bude ve **stejném r
 20. 10. 2026, od téhož dne **veřejné**). Náhled: **https://adam-kriz.github.io/candadigitals/**
 (GitHub Pages z větve `main`). Pushovat jen s Adamovým výslovným souhlasem.
 
+**Chris má přístup do repa** (od 25. 10. 2026): účet `ZorroNielsen` je collaborator s právem
+zápisu (pozvánku musí přijmout na github.com/adam-kriz/candadigitals/invitations). Co kdokoli
+z nich pushne do `main`, Cloudflare hned nasadí na živý web, proto **před prací vždy
+`git pull`**, ať se nepřepíšou Chrisovy změny.
+
 ## Název
 
 **C&A Digitals** — C = Chris, A = Adam. Napsané celé stejně tenkým písmem
