@@ -3,47 +3,66 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Lab: physics hero | C&amp;A Digitals</title>
+<title>Lab: websites + care hero | C&amp;A Digitals</title>
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#262624">
 <link rel="icon" href="../brand/icon-dark.svg" type="image/svg+xml">
 <link rel="preload" href="../fonts/hanken-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="../style.css?v=26">
 <style>
-/* ===== Prototype: physics hero (lab only) ===== */
-.ph { position: relative; height: 100vh; height: 100svh; min-height: 620px; overflow: hidden; touch-action: pan-y; }
-.ph-copy { position: relative; z-index: 2; padding: 116px var(--pad) 0; pointer-events: none; }
-.ph-copy a, .ph-copy button { pointer-events: auto; }
-.ph-title { margin: 0; font-weight: 800; text-transform: uppercase; font-size: clamp(46px, 8.6vw, 156px); line-height: 0.88; letter-spacing: -0.055em; max-width: 12ch; }
-.ph-row { display: flex; flex-wrap: wrap; align-items: center; gap: 20px 32px; margin-top: 28px; }
-.ph-lead { margin: 0; max-width: 30em; font-size: clamp(17px, 1.4vw, 20px); color: var(--muted); }
-.ph-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
-.ph-ctas .btn { min-height: 56px; min-width: 0; padding: 0 28px; font-size: 17px; }
-.ph-hint { position: absolute; z-index: 2; right: var(--pad); top: 122px; margin: 0; color: var(--muted); font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; pointer-events: none; transition: opacity 0.6s; }
-.ph.touched .ph-hint { opacity: 0; }
+/* ===== Prototype: "we build it, then we take care of it" hero (lab only) ===== */
+.hh { min-height: 100vh; min-height: 100svh; padding: 112px var(--pad) 0; display: flex; flex-direction: column; }
+.hh-main { flex: 1; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(32px, 5vw, 80px); align-items: center; }
+.hh-title { margin: 0; font-weight: 700; font-size: clamp(40px, 4.9vw, 84px); line-height: 1.02; letter-spacing: -0.035em; }
+.hh-title .accent { display: block; }
+.hh-lead { margin: 22px 0 0; max-width: 30em; color: var(--muted); font-size: clamp(18px, 1.4vw, 21px); }
+.hh-ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+.hh-ctas .btn { min-height: 56px; min-width: 0; padding: 0 28px; font-size: 17px; }
 
-/* the falling things */
-.ph-world { position: absolute; inset: 0; z-index: 1; }
-.tile {
-  position: absolute; left: 0; top: 0; will-change: transform; user-select: none; -webkit-user-select: none;
-  display: inline-flex; align-items: center; gap: 0.35em; white-space: nowrap;
-  padding: 0.42em 0.85em; border-radius: 999px; font-weight: 700; letter-spacing: -0.03em;
-  font-size: clamp(20px, 2.6vw, 44px); line-height: 1; cursor: grab;
+/* stage: chips row / devices / chips row, so nothing ever overlaps */
+.stage { display: flex; flex-direction: column; gap: 18px; }
+.chips-row { display: flex; justify-content: space-between; gap: 12px; }
+.chips-row.bottom { padding-left: 6%; padding-right: 30%; }
+.chip2 {
+  display: inline-flex; align-items: center; gap: 10px; padding: 10px 14px 10px 12px;
+  background: var(--bg-2); border: 1px solid var(--line); border-radius: 14px;
+  font-size: clamp(14px, 1.05vw, 16px); white-space: nowrap;
+  animation: chip-float 5s ease-in-out infinite;
 }
-.ph.grabbing, .ph.grabbing .tile { cursor: grabbing; }
-.tile.solid { background: var(--accent); color: var(--accent-ink); }
-.tile.cream { background: var(--ink); color: var(--bg); }
-.tile.line { border: 2px solid rgba(245, 244, 238, 0.55); color: var(--ink); }
-.tile .stars { color: #E9A23B; font-size: 0.7em; letter-spacing: 0; }
-.tile.diamond { padding: 0; border-radius: 0; background: none; }
-.tile.diamond svg { display: block; width: clamp(110px, 11vw, 190px); height: auto; }
+.chip2:nth-child(2) { animation-delay: -2.5s; }
+.chips-row.bottom .chip2:nth-child(1) { animation-delay: -1.2s; }
+.chips-row.bottom .chip2:nth-child(2) { animation-delay: -3.7s; }
+@keyframes chip-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+.chip2 svg { width: 20px; height: 20px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.chip2 .ic { color: var(--accent); }
+.chip2 .ok { color: #5DCAA5; }
+.chip2 .stars { color: #E9A23B; letter-spacing: 1px; font-size: 0.9em; }
 
-@media (max-width: 700px) {
-  .ph-copy { padding-top: 96px; }
-  .ph-hint { display: none; }
-  .tile { font-size: 19px; }
-  .tile.diamond svg { width: 92px; }
+.devices { position: relative; padding-right: 12%; margin-bottom: 7%; } /* room for the phone hanging below */
+.laptop-screen { border: 10px solid #121721; border-bottom-width: 14px; border-radius: 14px; overflow: hidden; background: #121721; aspect-ratio: 16 / 10; }
+.laptop-screen img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+.laptop-base { height: 12px; margin: 0 -4%; border-radius: 0 0 14px 14px; background: #3a3a37; }
+.phone { position: absolute; right: 0; bottom: -8%; width: 24%; border: 7px solid #0b0b0b; border-radius: 26px; overflow: hidden; background: #0b0b0b; aspect-ratio: 9 / 19.5; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45); }
+.phone img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; border-radius: 19px; }
+
+/* services row with icons along the bottom of the hero */
+.hh-services { list-style: none; margin: clamp(40px, 6vh, 72px) 0 0; padding: 22px 0 28px; border-top: 1px solid var(--line); display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 16px; }
+.hh-services li { display: flex; align-items: center; gap: 10px; font-size: clamp(15px, 1.15vw, 18px); }
+.hh-services svg { width: 26px; height: 26px; flex: none; fill: none; stroke: var(--accent); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+
+@media (max-width: 1000px) {
+  .hh { padding-top: 96px; }
+  .hh-main { grid-template-columns: 1fr; gap: 36px; }
+  .hh-services { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 14px; }
 }
+@media (max-width: 560px) {
+  .chips-row, .chips-row.bottom { padding: 0; }
+  .chip2 { font-size: 13px; padding: 8px 10px; gap: 7px; }
+  .chip2 svg { width: 17px; height: 17px; }
+  .chip2 .stars { display: none; }
+  .hh-services { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (prefers-reduced-motion: reduce) { .chip2 { animation: none; } }
 </style>
 </head>
 <body>
@@ -56,187 +75,47 @@
 </header>
 
 <main id="main">
-  <section class="ph" id="ph">
-    <div class="ph-copy">
-      <h1 class="ph-title">Websites that bring you <span class="accent">customers.</span></h1>
-      <div class="ph-row">
-        <p class="ph-lead">A two-person web studio for small businesses. We design, build and look after your website, and help you get found, reviewed and booked.</p>
-        <div class="ph-ctas">
+  <section class="hh">
+    <div class="hh-main">
+      <div class="hh-copy">
+        <h1 class="hh-title">We build your website. <span class="accent">Then we take care of it.</span></h1>
+        <p class="hh-lead">Design, Google, reviews, bookings and monthly care, from one small team that answers when you call.</p>
+        <div class="hh-ctas">
           <a class="btn" href="../#contact"><span>Book a free call</span></a>
           <a class="btn btn-ghost" href="../#work"><span>See our work</span></a>
         </div>
       </div>
-    </div>
-    <p class="ph-hint">Grab and throw ↓</p>
 
-    <div class="ph-world" aria-hidden="true">
-      <span class="tile solid">Websites</span>
-      <span class="tile cream">Google profile</span>
-      <span class="tile line">Reviews <span class="stars">★★★★★</span></span>
-      <span class="tile solid">Online bookings</span>
-      <span class="tile line">Payments</span>
-      <span class="tile cream">Spanish</span>
-      <span class="tile line">Fast on phones</span>
-      <span class="tile solid">Monthly care</span>
-      <span class="tile line">Accessibility</span>
-      <span class="tile cream">Logo</span>
-      <span class="tile diamond"><svg viewBox="12 12 72 36"><polygon points="48,12 84,30 48,48 12,30" fill="#5B87FF"/></svg></span>
-      <span class="tile diamond"><svg viewBox="12 12 72 36"><polygon points="48,12 84,30 48,48 12,30" fill="#5B87FF"/></svg></span>
-      <span class="tile diamond"><svg viewBox="12 12 72 36"><polygon points="48,12 84,30 48,48 12,30" fill="#888780"/></svg></span>
+      <div class="stage" aria-label="A website we built, and what we look after">
+        <div class="chips-row top">
+          <span class="chip2"><svg class="ic" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Found on Google <span class="stars" aria-label="5 stars">★★★★★</span></span>
+          <span class="chip2"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18M9 15l2 2 4-4"/></svg>New booking today</span>
+        </div>
+        <div class="devices">
+          <div class="laptop-screen"><img src="../images/work/key-sailing.jpg" alt="Key Sailing Sarasota website on a laptop" width="1200" height="750"></div>
+          <div class="laptop-base"></div>
+          <div class="phone"><img src="../images/work/key-sailing-phone.jpg" alt="The same website on a phone" width="560" height="1212"></div>
+        </div>
+        <div class="chips-row bottom">
+          <span class="chip2"><svg class="ok" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg>Backed up and secure</span>
+          <span class="chip2"><svg class="ok" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.6"/><path d="M20 4v5h-5"/><path d="M9 12l2 2 4-4"/></svg>Updated this week</span>
+        </div>
+      </div>
     </div>
+
+    <ul class="hh-services">
+      <li><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="11" rx="1.5"/><path d="M2 19h20"/></svg>Websites</li>
+      <li><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Google</li>
+      <li><svg viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></svg>Reviews</li>
+      <li><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>Bookings</li>
+      <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"/></svg>Languages</li>
+      <li><svg viewBox="0 0 24 24"><path d="M12 20s-8-4.7-8-10.2A4.3 4.3 0 0 1 12 7a4.3 4.3 0 0 1 8 2.8C20 15.3 12 20 12 20z"/></svg>Monthly care</li>
+    </ul>
   </section>
 
   <section style="padding: 30vh var(--pad); text-align: center; color: var(--muted);">
     <p>(The rest of the site would continue here.)</p>
   </section>
 </main>
-
-<script src="../js/vendor/matter.min.js"></script>
-<script>
-(() => {
-  const hero = document.getElementById('ph');
-  const world = hero.querySelector('.ph-world');
-  const tiles = [...world.querySelectorAll('.tile')];
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
-  const { Engine, Bodies, Body, Composite, Mouse, MouseConstraint, Events, Sleeping } = Matter;
-
-  let W = hero.clientWidth, H = hero.clientHeight;
-  const sizes = tiles.map((t) => ({ w: t.offsetWidth, h: t.offsetHeight }));
-
-  // Static fallback (reduced motion): lay the tiles in rows along the bottom.
-  const restLayout = () => {
-    let x = 16, y = H - 16;
-    tiles.forEach((t, i) => {
-      const { w, h } = sizes[i];
-      if (x + w > W - 16) { x = 16; y -= h + 10; }
-      t.style.transform = `translate(${x}px, ${y - h}px)`;
-      x += w + 10;
-    });
-  };
-  if (reduce || !window.Matter) { restLayout(); return; }
-
-  const engine = Engine.create({ gravity: { y: 1.1 }, enableSleeping: true, positionIterations: 12, velocityIterations: 8 });
-  const T = 600;
-  const wallOpts = { isStatic: true, friction: 0.6, restitution: 0.15 };
-  let walls = [];
-  const buildWalls = () => {
-    if (walls.length) Composite.remove(engine.world, walls);
-    walls = [
-      Bodies.rectangle(W / 2, H + T / 2, W + T * 2, T, wallOpts),
-      Bodies.rectangle(-T / 2, H / 2 - H, T, H * 4, wallOpts),
-      Bodies.rectangle(W + T / 2, H / 2 - H, T, H * 4, wallOpts),
-    ];
-    Composite.add(engine.world, walls);
-  };
-  buildWalls();
-
-  const pairs = tiles.map((tile, i) => {
-    const { w, h } = sizes[i];
-    const x = w / 2 + Math.random() * Math.max(1, W - w);
-    const y = -h - 60 - Math.random() * 300;
-    const opts = { restitution: 0.25, friction: 0.5, frictionStatic: 0.8, frictionAir: 0.012, density: 0.0015, sleepThreshold: 50 };
-    const body = tile.classList.contains('diamond')
-      ? Bodies.fromVertices(x, y, [[{ x: 0, y: -h / 2 }, { x: w / 2, y: 0 }, { x: 0, y: h / 2 }, { x: -w / 2, y: 0 }]], opts)
-      : Bodies.rectangle(x, y, w, h, { ...opts, chamfer: { radius: h / 2 } });
-    Body.setAngle(body, (Math.random() - 0.5) * 1.2);
-    Body.setAngularVelocity(body, (Math.random() - 0.5) * 0.08);
-    return { tile, body, w, h };
-  });
-  // hidden until they drop in
-  pairs.forEach(({ tile }) => { tile.style.transform = 'translate(-9999px, 0)'; });
-
-  // Drop them one after another, so it reads like a little cascade.
-  pairs.forEach((p, i) => setTimeout(() => Composite.add(engine.world, p.body), 300 + i * 140));
-
-  // Grab and throw with the mouse; the wheel stays with the page.
-  if (fine) {
-    const mouse = Mouse.create(hero);
-    ['mousewheel', 'DOMMouseScroll', 'wheel'].forEach((ev) => hero.removeEventListener(ev, mouse.mousewheel));
-    hero.removeEventListener('mousemove', mouse.mousemove);
-    hero.removeEventListener('mouseup', mouse.mouseup);
-    window.addEventListener('mousemove', mouse.mousemove);
-    window.addEventListener('mouseup', mouse.mouseup);
-    const mc = MouseConstraint.create(engine, { mouse, constraint: { stiffness: 0.15, damping: 0.1, angularStiffness: 0, render: { visible: false } } });
-    Composite.add(engine.world, mc);
-    Events.on(mc, 'startdrag', () => { hero.classList.add('grabbing', 'touched'); });
-    Events.on(mc, 'enddrag', () => hero.classList.remove('grabbing'));
-
-    // The cursor also nudges tiles it brushes past.
-    let last = null;
-    hero.addEventListener('mousemove', (e) => {
-      const r = hero.getBoundingClientRect();
-      const p = { x: e.clientX - r.left, y: e.clientY - r.top };
-      if (last && !mc.body) {
-        const vx = p.x - last.x, vy = p.y - last.y;
-        pairs.forEach(({ body }) => {
-          if (Matter.Bounds.contains(body.bounds, p) && Matter.Vertices.contains(body.vertices, p)) {
-            Sleeping.set(body, false);
-            Body.setVelocity(body, { x: body.velocity.x + vx * 0.25, y: body.velocity.y + Math.min(vy * 0.25, 0) - 2 });
-            hero.classList.add('touched');
-          }
-        });
-      }
-      last = p;
-    });
-  } else {
-    // Touch: tap a tile to make it jump.
-    hero.addEventListener('click', (e) => {
-      const r = hero.getBoundingClientRect();
-      const p = { x: e.clientX - r.left, y: e.clientY - r.top };
-      pairs.forEach(({ body }) => {
-        if (Matter.Vertices.contains(body.vertices, p)) {
-          Sleeping.set(body, false);
-          Body.setVelocity(body, { x: (Math.random() - 0.5) * 8, y: -14 });
-          Body.setAngularVelocity(body, (Math.random() - 0.5) * 0.3);
-        }
-      });
-    });
-  }
-
-  const MAX = 30;
-  Events.on(engine, 'beforeUpdate', () => {
-    pairs.forEach(({ body }) => {
-      if (body.speed > MAX) Body.setVelocity(body, { x: body.velocity.x * MAX / body.speed, y: body.velocity.y * MAX / body.speed });
-    });
-  });
-  Events.on(engine, 'afterUpdate', () => {
-    pairs.forEach(({ body, w, h }) => {
-      // anything thrown far out comes back in from the top
-      if (body.position.y > H + h || body.position.y < -H * 1.5 || body.position.x < -w || body.position.x > W + w) {
-        Body.setPosition(body, { x: Math.min(Math.max(body.position.x, w / 2), W - w / 2), y: -h });
-        Body.setVelocity(body, { x: 0, y: 0 });
-      }
-    });
-  });
-
-  const render = () => pairs.forEach(({ tile, body, w, h }) => {
-    if (!body.parts || !engine.world.bodies.includes(body)) return;
-    tile.style.transform = `translate3d(${body.position.x - w / 2}px, ${body.position.y - h / 2}px, 0) rotate(${body.angle}rad)`;
-  });
-
-  const STEP = 1000 / 120;
-  let running = false, lastT = 0, acc = 0;
-  const frame = (t) => {
-    if (!running) return;
-    acc += lastT ? Math.min(t - lastT, 100) : STEP;
-    lastT = t;
-    while (acc >= STEP) { Engine.update(engine, STEP); acc -= STEP; }
-    render();
-    requestAnimationFrame(frame);
-  };
-  new IntersectionObserver(([e]) => {
-    if (e.isIntersecting && !running) { running = true; lastT = 0; acc = 0; requestAnimationFrame(frame); }
-    else if (!e.isIntersecting) running = false;
-  }).observe(hero);
-
-  new ResizeObserver(() => {
-    if (hero.clientWidth === W && hero.clientHeight === H) return;
-    W = hero.clientWidth; H = hero.clientHeight;
-    buildWalls();
-    pairs.forEach(({ body, w }) => { Sleeping.set(body, false); if (body.position.x > W - w / 2) Body.setPosition(body, { x: W - w / 2, y: body.position.y }); });
-  }).observe(hero);
-})();
-</script>
 </body>
 </html>
